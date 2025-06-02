@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>EaseHeaven</title>
+        <link rel="icon" type="image/png" hrefhref="{{ url_for('static', filename='icon.png') }}">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <nav class="navbar navbar-expand-lg navbar-dark mt-4" style="background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="{{url_for('static',filename='56.png')}}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        <div class="container justify-content-center">
+            
+            <ul class="navbar-nav d-flex flex-row gap-10">
+        <li class="nav-item">
+          <a class="nav-link" style="color:whitesmoke;" href="/About">About Us</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" style="color:whitesmoke;" href="/About">Home</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" style="color:whitesmoke;" href="/About">Become Partner</a>
+          </li>
+          <a class="btn btn-primary" style="background-color: white; color: black; margin-left: 10px; height: 40px;" href="#" role="button">Sign Up</a>
+          <a class="btn btn-primary" style="background-color: white; color: black; margin-left: 20px; height: 40px;" href="#" role="button">Admin</a>
+        
+        </div>
+        </nav>
+
+
+    </head>
+    <body style="background-color: rgb(203, 28, 222);">
+        <div class="heading" style="margin-left: 250px; margin-top:100px; color: white;">
+        <h1>EaseHeaven</h1>
+        <h5>Ease in Comfort</h5>
+
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 300px; margin-top: 20px; ">
+        <div class="card" style="height: 350px; width: 300px; margin-left: 250px; margin-top: 50px; border-radius: 10px;">
+            <div class="mb-3" style="width: 250px; margin-left: 20px; margin-top: 20px;">
+                 <label for="username" class="form-label" style="color: black;">Username</label>
+                <input type="username" class="form-control" id="username" placeholder="username">
+                <label for="password" class="form-label" style="color: black; margin-top: 10px;">Password</label>
+                <input type="password" class="form-control" id="Password" placeholder="Password">
+                <button type="button" class="btn btn-primary" style="margin-top: 20px; width: 250px; background-color: black; color: white;" >Sign In</button>
+                <a href="https://example.com" style="text-decoration: underline; color: black; margin-top: 30px;">Forgot Password?</a>
+            </div>
+        </div>
+        <div class="illustrative">
+    <img src="/EaseHeaven-2.O/static/56.png" style="height: 410px; object-fit: contain;">
+  </div>
+    </div>
+     
+    <div class="heading" style="margin-left: 250px; margin-top:100px; color: white;">
+        
+        <h5>Book Quick Service</h5>
+        <div class="mb-3" >
+          
+           <select class="form-select" id="country" style="width: 250px; height: 30px; border-radius: 8px;">
+              <option selected disabled>Select City
+              </option>
+              <option value="india">India</option>
+              <option value="usa">USA</option>
+              <option value="uk">UK</option>
+           </select>
+
+           <select class="form-select" id="country" style=" margin-left: 20px; height: 30px; border-radius: 8px;">
+              <option selected disabled>Choose Service
+              </option>
+              <option value="india">India</option>
+              <option value="usa">USA</option>
+              <option value="uk">UK</option>
+           </select>
+
+           <button type="button" class="btn btn-primary" style=" margin-left: 20px; border-radius: 8px; width: 100px; background-color: black; color: white;" >Book Now</button>
+        </div>
+
+        </div>
+
+        
+        
+    </body>
+</html>
