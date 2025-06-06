@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>EaseHeaven</title>
+        <link rel="icon" type="image/png" hrefhref="{{ url_for('static', filename='icon.png') }}">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <nav class="navbar navbar-expand-lg navbar-dark mt-4" style="background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+         
+        
+        <div class="container-fluid" >
+            <img src="menu.png" onclick="toggleMenu()" style="width:30px;cursor:pointer;">
+
+            <div id="menu" style="display:none;">
+                  <a href="#">Home</a><br>
+                  <a href="#">About</a>
+            </div>
+    
+        <form class="d-flex" role="search" style="margin-left: 300px;">
+      <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-light" type="submit">Search</button>
+    </form>
+       
+    <div class="ml-auto" style="display: flex; align-items: flex-start;">
+        <H5 style="color: white;">Welcome, Professional</H5>
+        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        </div>
+
+        </nav>
+</div>
+
+    </head>
+<body style="background-color: rgb(203, 28, 222);">
+
+    <div style="margin-left: 200px;">
+        <h3 style=" color: white;">Ongoing Services</h3>
+        <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
+      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+        <h5 style="color: black; margin-left: 10px;">Existing Service Request</h5>
+        
+        <br>
+        
+      </div>
+    </div>
+
+    </div>
+
+    <div style="display: flex; gap: 40px;">
+
+    <div style="margin-left: 200px; ">
+        <form class="d-flex" role="search" style="margin-top: 40px; width: 500px;">
+          <input class="form-control mr-2" type="search" placeholder="Search Services by Customer_ID" aria-label="Search Services by Professional_ID">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+        <div class="card" style="height: 300px; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
+          <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+            <h4 style="color: black; margin-left: 10px;">Customer Details</h4>
+            <h6 style="color: black; margin-left: 10px;">Name :-</h6>
+            <h6 style="color: black; margin-left: 10px;">Email :-</h6>
+            <h6 style="color: black; margin-left: 10px;">Address :-</h6>
+            <h6 style="color: black; margin-left: 10px;">Phone number :-</h6>
+            <br>
+            <div style="display: flex; align-items: flex-start;">
+              <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Block</button>
+
+              <button class="btn btn-success" style="width: 150px; margin-left: 75px;">Unblock</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="height: 380px; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
+          <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+          <h5 style="color: black; margin-left: 10px;">Write a Customer Review</h5>
+      </div>
+      <form class="d-flex" style="margin-top: 40px; width: 500px;">
+        <textarea class="form-control mr-2" style="margin-left: 50px; height: 200px; width: 300px;" placeholder="Review" aria-label="Write your review here"></textarea>
+        <button class="btn btn-outline-light" type="submit" style="width: 100px; color: white; background-color: black;">Submit Review</button>
+      </form>
+      </div>
+      </div>
+
+      <div>
+        <div class="card" style="height: 400px; width: 1050px; margin-left: 200px; margin-top: 80px; border-radius: 15px; background-color: white;">
+      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+        <h5 style="color: black; margin-left: 10px;">Your Service Request</h5>
+        
+        <br>
+        <div style="display: flex; align-items: flex-start;">
+          <button class="btn btn-success" style="width: 100px; margin-left: 75px;">Accept</button>
+          <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Reject</button>
+
+          
+        </div>
+      </div>
+    </div>
+      </div>
+
+     <div style="margin-left: 200px; margin-top: 50px;">
+        <h3 style=" color: white;">Your Service History</h3>
+        <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
+      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+        <h5 style="color: black; margin-left: 10px;">Service History</h5>
+        
+        <br>
+        
+      </div>
+    </div>
+
+    </div>
+
+
+    <div style="margin-left: 200px; margin-top: 50px;">
+        <h3 style=" color: white;">Overall Service Requests</h3>
+        <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
+      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+        <h5 style="color: black; margin-left: 10px;">Overall Service Requests</h5>
+        
+        <br>
+        
+      </div>
+    </div>
+
+    </div>
+
+    
+    
+
+
+
+
+</body>
+</html>
