@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}EaseHeaven{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap + Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body style="background-color: rgb(203, 28, 222);">
+
+    <nav class="navbar navbar-expand-lg navbar-dark mt-4" style="background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        <div class="container justify-content-center">
+            {% block navbar %}
+            <ul class="navbar-nav d-flex flex-row gap-3">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/About">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/partner">Become Partner</a>
+                </li>
+                <li class="nav-item ml-3">
+                    <a class="btn btn-light" href="/Registration">Sign Up</a>
+                </li>
+                <li class="nav-item ml-2">
+                    <a class="btn btn-light" href="/EaseHeaven">Admin</a>
+                </li>
+            </ul>
+            {% endblock %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    
+
+    {% block fotter %}
+    <footer class="bg-dark text-white text-center text-lg-start" style="margin-top: 200px;">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 mb-4 mb-md-0" style="margin-left: 370px;">
+                    <h5 class="text-uppercase">Contact</h5>
+                    <p>Email: info@example.com</p>
+                    <p>Phone: +1 234 567 890</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3 bg-secondary">
+            © 2025 Your Company. All rights reserved.
+        </div>
+    </footer>
+    {%endblock%}
+</body>
+</html>
