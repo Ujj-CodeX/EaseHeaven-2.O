@@ -62,6 +62,41 @@ def Admin_login():
 
 #-------------------END---------------------------------------#
 
+#--------------------Authentication----------------------------#
+
+#-----> User Registration
+
+@app.route("/Reg_user", methods=['GET', 'POST'])
+def Reg_user():
+        if request.method == 'POST':
+            # Collect form data
+            userid = request.form['username']
+            password = request.form['password']
+            Fullname = request.form['name']
+            Gender = request.form['gender']
+            address = request.form['address']
+            Pincode = request.form['pincode']
+            phone = request.form['phone']
+            email = request.form['email']
+            status= "Unblocked"
+
+
+            # Insert data into the database
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('''INSERT INTO cust_details 
+                              (username, password, name, gender, address, pincode, phone, email ,status ) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)''',
+                           (userid, password, Fullname,Gender, address, Pincode, phone, email , status))
+            db.commit()
+            flash('Registration successful!')
+            return redirect(url_for('login_pg3'))
+        return render_template('user_reg.html')
+
+
+
+
+
 
 
 if __name__ == '__main__':
