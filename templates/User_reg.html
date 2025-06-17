@@ -17,29 +17,36 @@
         }
   </style>
 
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
       <div class="card" style="height: 750px; width: 500px; margin-left: 500px;  border-radius: 10px; margin-top: 50px;">
             <div class="mb-3" style="width: 400px; margin-left: 40px; margin-top: 20px;">
                 <h4 style="color: black; margin-left: 130px; ">Register Here</h4>
                 <br>
                 <form action="{{ url_for('Reg_user') }}" method="post">
-                
-                <input type="username" class="form-control" id="username" placeholder="Username" style="font-weight: bold;"><br>
-                
-                <input type="Name" class="form-control" id="Password" placeholder="Full Name" style="font-weight: bold;"><br>
-                
-                <input type="password" class="form-control" id="" placeholder="Password" style="font-weight: bold;"><br>
-                
-                <input type="email" class="form-control" id="" placeholder="Email ID" style="font-weight: bold;"><br>
-                
-                <input type="gender" class="form-control" id="" placeholder="Gender" style="font-weight: bold;"><br>
-                
-                <input type="password" class="form-control" id="" placeholder="Address" style="font-weight: bold;"><br>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" style="font-weight: bold;"><br>
 
-                <input type="password" class="form-control" id="" placeholder="Pincode" style="font-weight: bold;"><br>
+                <input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name" style="font-weight: bold;"><br>
 
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" style="font-weight: bold;"><br>
 
-                <input type="password" class="form-control" id="" placeholder="Contact" style="font-weight: bold;"><br>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email ID" style="font-weight: bold;"><br>
 
+                <input type="text" class="form-control" id="gender" name="gender" placeholder="Gender" style="font-weight: bold;"><br>
+
+                <input type="text" class="form-control" id="address" name="address" placeholder="Address" style="font-weight: bold;"><br>
+
+                <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Pincode" style="font-weight: bold;"><br>
+
+                <input type="tel" class="form-control" id="contact" name="contact" placeholder="Contact" style="font-weight: bold;"><br>
+
+               
                 
 
 

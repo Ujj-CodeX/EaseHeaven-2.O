@@ -3,11 +3,13 @@ from flask import Flask, render_template,request,redirect, url_for,session, g, f
 import os
 import sqlite3
 
-app = Flask(__name__)
-app.secret_key = app.secret_key = os.environ.get('SECRET_KEY', 'dev-fallback')
+
 app = Flask(__name__, template_folder='../templates')
+app.secret_key = 'EaseHeaven@123'
+
 #generated_secret_key via cmd
 
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 Database = 'Database.db'
 
 #Establishing Connection with Database
@@ -76,7 +78,7 @@ def Reg_user():
             Gender = request.form['gender']
             address = request.form['address']
             Pincode = request.form['pincode']
-            phone = request.form['phone']
+            phone = request.form['contact']
             email = request.form['email']
             status= "Unblocked"
 
@@ -84,14 +86,26 @@ def Reg_user():
             # Insert data into the database
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('''INSERT INTO cust_details 
+
+
+            cursor.execute("SELECT * FROM customer_details WHERE username = ?", (userid,))
+            existing_user=cursor.fetchone()
+
+            if existing_user:
+                flash('Username already exist. Please choose another username')
+                return render_template('User_reg.html')
+
+
+
+
+            cursor.execute('''INSERT INTO customer_details 
                               (username, password, name, gender, address, pincode, phone, email ,status ) 
                               VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)''',
                            (userid, password, Fullname,Gender, address, Pincode, phone, email , status))
             db.commit()
             flash('Registration successful!')
-            return redirect(url_for('login_pg3'))
-        return render_template('user_reg.html')
+            return redirect(url_for('home'))
+        return render_template('User_reg.html')
 
 
 
