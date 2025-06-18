@@ -11,7 +11,7 @@
         </head>
         <style>
         body {
-        background-image: url("{{ url_for('static', filename='69.png') }}");
+        background-image: url("{{ url_for('static', filename='7.jpg') }}");
         background-size: cover;
         background-repeat: no-repeat;
         }
@@ -37,8 +37,14 @@
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" style="font-weight: bold;"><br>
 
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email ID" style="font-weight: bold;"><br>
-
-                <input type="text" class="form-control" id="gender" name="gender" placeholder="Gender" style="font-weight: bold;"><br>
+                <div class="col-auto">
+                <select id="serviceType" name="gender" class="form-control" >
+                <option value="Choose Your Gender">Choose your Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                </select>
+                </div><br>
 
                 <input type="text" class="form-control" id="address" name="address" placeholder="Address" style="font-weight: bold;"><br>
 
@@ -58,7 +64,8 @@
                 <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 400px; background-color: black; color: white;" >Register Now</button>
                </form>
                 <h7 style=" margin-top: 20px; margin-left: 120px;">Already have an ID ?</h7><br>
-                <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-left: 150px; width: 100px; background-color: red; color: white;" >Login</button>
+                <a href="/" class="btn btn-primary" style="margin-top: 20px; margin-left: 150px; width: 100px; background-color: red; color: white;" >Login</a>
+            </div>
             </div>
 
         </body>

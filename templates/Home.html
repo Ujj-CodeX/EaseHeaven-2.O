@@ -12,17 +12,27 @@
     <div style="display: flex; align-items: flex-start; gap: 120px; margin-top: 20px;">
         <div class="card" style="height: 350px; width: 300px; margin-left: 20px; margin-top: 50px; border-radius: 10px;">
             <div class="mb-3" style="width: 250px; margin-left: 20px; margin-top: 20px;">
+            <form action="{{ url_for('login_pg') }}" method="post">
                 <label for="username" class="form-label" style="color: black;">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Username">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
 
                 <label for="password" class="form-label" style="color: black; margin-top: 10px;">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
 
-                <button type="button" class="btn btn-primary" style="margin-top: 20px; width: 250px; background-color: black; color: white;">Sign In</button>
-
+                <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 250px; background-color: black; color: white;">Sign In</button>
                 <a href="https://example.com" style="display: block; text-decoration: underline; color: black; margin-top: 15px;">Forgot Password?</a>
+            
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-danger mt-3">
+                  {{ messages[0] }}
+                </div>
+                {% endif %}
+                {% endwith %}
+            
             </div>
-        </div>
+            </div>
+            </form>
 
         <div class="illustrative">
             <img src="{{ url_for('static', filename='56.png') }}" style="height: 410px; object-fit: contain;">
@@ -46,16 +56,45 @@
                 <option value="electrical">Electrical</option>
             </select>
 
-            <button type="button" class="btn btn-primary" style="margin-left: 20px; border-radius: 8px; width: 100px; background-color: black; color: white;">Book Now</button>
+            <button type="button" class="btn btn-primary" style="margin-left: 20px; border-radius: 8px; width: 100px; background-color: black; color: white;" onclick="alert('Thanks for Your interest!! Login First ')">Book Now</button>
         </div>
     </div>
 
-    <div class="card" style="height: 500px; width: 1200px; margin-left: 0px; margin-top: 50px; border-radius: 10px;">
+    <div class="card" style="height: 900px; width: 1200px; margin-left: 0px; margin-top: 50px; border-radius: 10px;">
         <h3 style="color:black; margin-top: 50px; margin-left: 50px;">Services We Provide</h3>
         <div class="minicards" style="display: flex; align-items: flex-start; gap: 50px;">
-            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;"></div>
-            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;"></div>
-            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;"></div>
+            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
+                
+                <img src="{{ url_for('static', filename='34.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <h7 style="margin-left: 70px; font-weight: bold;" >Laundary</h7>
+            </div>
+            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
+                <img src="{{ url_for('static', filename='35.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <h7 style="margin-left: 70px; font-weight: bold;" >Gardening</h7>
+            </div>
+            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
+                <img src="{{ url_for('static', filename='36.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <h7 style="margin-left: 70px; font-weight: bold;" >Electrician</h7>
+            </div>
+        </div>
+
+        <div class="minicards" style="display: flex; align-items: flex-start; gap: 50px;">
+
+            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
+                <img src="{{ url_for('static', filename='37.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <h7 style="margin-left: 70px; font-weight: bold;" >Painter</h7>
+            </div>
+
+            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
+                <img src="{{ url_for('static', filename='38.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <h7 style="margin-left: 70px; font-weight: bold;" >Cleaner</h7>
+                
+            </div>
+
+            <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
+                <img src="{{ url_for('static', filename='39.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <h7 style="margin-left: 70px; font-weight: bold;" >Plumber</h7>
+            </div>
         </div>
     </div>
 

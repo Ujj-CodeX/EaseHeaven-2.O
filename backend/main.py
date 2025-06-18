@@ -32,7 +32,7 @@ def User_reg():
 
 @app.route('/Professional_SignUp')
 def pr_reg():
-    return render_template('Pr.reg.html')
+    return render_template('Pr_reg.html')
 
 @app.route('/EaseHeaven')
 def User_dash():
@@ -61,6 +61,12 @@ def Cust_mng():
 @app.route('/Admin_login')
 def Admin_login():
     return render_template('Admin_login.html')
+
+@app.route('/Partner_login')
+def Partner_login():
+    return render_template('Pr_login.html')
+
+
 
 #-------------------END---------------------------------------#
 
@@ -109,7 +115,25 @@ def Reg_user():
 
 
 
+#---------------> User login
+@app.route("/login_pg", methods=['GET', 'POST'])
+def login_pg():
+    if request.method == 'POST':
+        id = request.form['username']
+        password = request.form['password']
 
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM customer_details WHERE username = ? AND password = ? AND status=? ", (id, password,"Unblocked"))
+        user = cursor.fetchone()
+
+        if user:
+            session['id'] = id
+            return redirect(url_for('User_dash'))
+        else:
+            flash('Invalid user ID or password.')
+            return redirect(url_for('home'))
+    return render_template('User_login.html')
 
 
 
