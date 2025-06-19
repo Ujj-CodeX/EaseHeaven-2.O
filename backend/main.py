@@ -204,25 +204,7 @@ def Reg_partner():
             return redirect(url_for('Partner_login'))
         return render_template('Pr_reg.html')
 
-@app.route("/partner", methods=['GET', 'POST'])
-def partner():
-    if request.method == 'POST':
-        id = request.form['username']
-        password = request.form['password']
 
-        db = get_db()
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM active_professional WHERE username = ? AND password = ? AND status=? ", (id, password,"Unblocked"))
-        user = cursor.fetchone()
-
-        if user:
-            session['id'] = id
-            return redirect(url_for('Pr_dash'))
-        else:
-            
-            flash('Invalid user ID or password.')
-            return redirect(url_for('home'))
-    return render_template('User_login.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
