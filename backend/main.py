@@ -155,7 +155,7 @@ def admin():
             print(user)
             if check_password_hash(user[2],password):
                 session['id'] = id
-                return redirect(url_for('Service'))
+                return redirect(url_for('show'))
         else:
             flash('Invalid user ID or password.')
             return redirect(url_for('Admin_login'))
@@ -203,6 +203,35 @@ def Reg_partner():
             flash('Registration successful!')
             return redirect(url_for('Partner_login'))
         return render_template('Pr_reg.html')
+
+
+#------------------> Service management
+
+@app.route('/service', methods=['GET', 'POST'])
+def service():
+    
+    if request.method == 'POST' :
+       ser = request.form['service']
+       price = request.form['price']
+
+       db = get_db()
+       cursor = db.cursor()
+       cursor.execute('''INSERT INTO service (name,charges) VALUES (?, ?)''',(ser, price))
+       db.commit()
+       flash('Service Creation successful!')
+
+
+
+    
+    return render_template(url_for('show'))
+
+@app.route('/Show_table', methods=['GET'])
+def show():
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute('SELECT name, charges FROM service')
+    table1 = cursor.fetchall()
+    return render_template('Admin_dash1.html' , table1=table1)
 
 
 
