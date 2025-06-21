@@ -229,9 +229,32 @@ def service():
 def show():
     db = get_db()
     cursor = db.cursor()
-    cursor.execute('SELECT name, charges FROM service')
+    cursor.execute('SELECT name, charges ,id FROM service')
     table1 = cursor.fetchall()
     return render_template('Admin_dash1.html' , table1=table1)
+
+
+@app.route('/delete_service/<int:service_id>', methods=['POST'])
+def delete(service_id):
+    db = get_db()
+    cursor =db.cursor()
+    cursor.execute("DELETE FROM service WHERE id = ?", (service_id,))
+    db.commit()
+    flash("Service deleted successfully.")
+    return redirect(url_for('show'))
+
+
+@app.route('/update_service/<int:service_id>', methods=['POST'])
+def update(service_id):
+    name=request.form['service']
+    price = request.form['price']
+
+    db=get_db()
+    cursor=db.cursor()
+    cursor.execute("UPDATE service SET name = ?, charges = ? WHERE id = ?", (name, price, service_id))
+    db.commit()
+    flash("Service updated successfully.")
+    return redirect(url_for('show'))
 
 
 

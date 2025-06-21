@@ -37,19 +37,19 @@
     <body style="background-color: rgb(203, 28, 222);">
         <div class="side_card" style="display: flex; gap: 40px; align-items: flex-start;">
 
-  <!-- SIDE CARD -->
+
   <div class="card" style="height: 1500px; width: 250px; border-radius: 8px; background-color: black; padding: 20px;">
     <a class="nav-link" style="color:whitesmoke; display: block;" href="/Customers_management">Customers Management</a>
     <a class="nav-link" style="color:whitesmoke; display: block;" href="/Partner_Management">Partners Management</a>
     <a class="nav-link" style="color:whitesmoke; display: block;" href="/Service_Management">Service Management</a>
   </div>
 
-  <!-- RIGHT CONTENT WRAPPER -->
+
   <div style="display: flex; flex-direction: column; gap: 30px;">
 
-    <!-- TOP ROW:  -->
+    
     <div style="display: flex; gap: 40px;">
-      <!--  -->
+      
       <div>
         <h5 style="margin-bottom: 10px; color: white;">Service Management</h5>
         <div class="card" style="height: 400px; width: 500px; border-radius: 15px; background-color: white;">
@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <!--  -->
+      
       <div>
         <form class="d-flex" role="search" style="margin-top: 40px; width: 500px;">
           <input class="form-control mr-2" type="search" placeholder="Search Services by SERVICE ID" aria-label="Search Services by SERVICE ID">
@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <!-- CARD 3 -  -->
+    
     <div class="card" style="height: auto; width: 1050px; border-radius: 15px; background-color: white;">
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
         <h4 style="color: black; margin-left: 10px;">Existing Service List</h4>
@@ -110,8 +110,17 @@
           <td>{{ user1[1] }}</td>
           <td>
           <div style="display: flex; align-items: flex-start;">
-             <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Delete</button>
-             <button class="btn btn-success" style="width: 150px; margin-left: 75px;">Edit</button>
+
+             <form method="POST" action="{{ url_for('delete', service_id=user1[2]) }}">
+             <button class="btn btn-danger" style="width: 100px; margin-left: 75px;" >Delete</button>
+             </form>
+              <form method="POST" action="/update_service/{{ user1[2] }}" id="form-{{ user1[2] }}">
+               <input type="hidden" name="service" value="{{ user1[0] }}">
+               <input type="hidden" name="price" value="{{ user1[1] }}">
+              <button  style="margin-left: 20px;"   type="button" class="btn btn-success btn-sm"onclick="editservice({{ user1[2] }}, '{{ user1[0] }}', {{ user1[1] }})">
+                 Update
+              </button>
+              </form>
           </div>
           </td>
         </tr>
@@ -169,3 +178,26 @@
 
         </body>
         </html>
+
+
+<script>
+  function editservice(id , currentName, currentPrice){
+  const newName = prompt("Enter new service name:", currentName);
+
+  if (newName === null) return; 
+
+    const newPrice = prompt("Enter new price:", currentPrice);
+    if (newPrice === null || isNaN(newPrice)) {
+      alert("Invalid price");
+      return;
+    }
+
+    const form = document.getElementById(`form-${id}`);
+    form.querySelector('input[name="service"]').value = newName;
+    form.querySelector('input[name="price"]').value = newPrice;
+
+    form.submit();
+  }
+
+  
+</script>
