@@ -4,23 +4,40 @@
 
 {% block navbar %}
 <div class="container-fluid">
-    <img src="menu.png" onclick="toggleMenu()" style="width:30px;cursor:pointer;">
-
-    <div id="menu" style="display:none;">
-        <a href="#">Home</a><br>
-        <a href="#">About</a>
-    </div>
-
-    <form class="d-flex" role="search" style="margin-left: 300px;">
+    <form class="d-flex" role="search" style="margin-left: 50px;">
         <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-light" type="submit">Search</button>
     </form>
 
-    <div class="ml-auto" style="display: flex; align-items: flex-start;">
-        <h5 style="color: white;">Welcome, User</h5>
-        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+    <div class="profile-wrapper" style="position: relative; display: flex; align-items: center; gap: 10px;">
+  <h5 style="color: white; margin: 0;">Welcome, User</h5>
+
+  <div style="position: relative;">
+    <img src="{{ url_for('static', filename='91.png') }}"
+         alt="Profile"
+         width="30"
+         height="30"
+         id="profile-icon"
+         style="cursor: pointer; border-radius: 50%;">
+
+    <div id="profile-dropdown" style="
+          display: none;
+          position: absolute;
+          top: 40px;
+          right: 0;
+          background-color: #fff;
+          border-radius: 6px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          min-width: 160px;
+          z-index: 1000;">
+      <a href="/Booking_management" style="display: block; padding: 10px; text-decoration: none; color: #333;">Booking Management</a>
+      <a href="/" style="display: block; padding: 10px; text-decoration: none; color: #333;">Logout</a>
     </div>
+  </div>
 </div>
+</div>
+
+
 {% endblock %}
 
 {% block content %}
@@ -29,17 +46,21 @@
     <h4 style="color: white;">Are You Looking For ?</h4>
 
     <div class="Servicelist" style="display: flex; align-items: flex-start;">
-        <img src="{{ url_for('static', filename='57.png') }}" style="border-radius: 10px; height: 700px; width: 400px; margin-top: 10px; object-fit: contain;">
+        <img src="{{ url_for('static', filename='57.png') }}" style=" border-radius: 20px; height: 700px; width: 400px; margin-top: 10px; object-fit: contain;">
 
         <div class="card" style="height: 650px; width: 500px; margin-left: 250px; border-radius: 10px;">
             <div class="mb-3" style="width: 400px; margin-left: 40px; margin-top: 20px;">
                 <h4 style="color: black;">Your Comfort, Just a Click Away</h4>
                 <br>
                 <label class="form-label" style="color: black;">Enter Pincode</label>
-                <input type="text" class="form-control" placeholder="Pincode">
+                
+                <input type="text" class="form-control" placeholder="Pincode"><br>
+                <button class="btn btn-success" style="width: 200px; height: 40px; margin-left: 75px;">Fetch Services</button><br>
+          
 
-                <label class="form-label" style="color: black; margin-top: 10px;">Choose City</label>
-                <input type="text" class="form-control" placeholder="City">
+          
+       
+
 
                 <label class="form-label" style="color: black; margin-top: 10px;">Choose required Services</label>
                 <input type="text" class="form-control" placeholder="Select Services">
@@ -57,17 +78,46 @@
             </div>
         </div>
     </div>
+    
 
     <h3 style="color: white;">How EaseHeaven Service Work?</h3>
     <img src="{{ url_for('static', filename='58.PNG') }}" alt="How it works" width="1170" height="300" style="margin-top: 20px; border-radius: 8px;">
 
-    <h3 style="color: white; margin-left: 350px; margin-top: 80px;">Our Service Professionals Ratings.</h3>
+    <h3 style="color: white; margin-left: 600px; margin-top: 80px;">Our Service Professionals Ratings.</h3>
+
+    <div class="card" style="height: 380px; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
+          <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+          <h5 style="color: black; margin-left: 10px;">Write a Customer Review</h5>
+      </div>
+      <form class="d-flex" style="margin-top: 40px; width: 500px;" action="/review" method="post">
+        <textarea class="form-control mr-2" style="margin-left: 50px; height: 200px; width: 300px;" name="review" placeholder="Review" aria-label="Write your review here"></textarea>
+        <button class="btn btn-outline-light" type="submit" style="width: 100px; color: white; background-color: black;">Submit Review</button>
+      </form>
+      </div>
+      </div>
 </div>
+
+
+
+
+
 {% endblock %}
 
+{% block scripts %}
 <script>
-    function toggleMenu() {
-        const menu = document.getElementById('menu');
-        menu.style.display = (menu.style.display === "none") ? "block" : "none";
-    }
+    const icon = document.getElementById("profile-icon");
+    const dropdown = document.getElementById("profile-dropdown");
+
+    icon.addEventListener("click", function(e){
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+
+
+    });
+
+    window.addEventListener("click", function () {
+    dropdown.style.display = "none";
+  });
+
 </script>
+{% endblock %}

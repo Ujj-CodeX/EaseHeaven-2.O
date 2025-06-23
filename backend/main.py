@@ -68,6 +68,10 @@ def Partner_login():
     return render_template('Pr_login.html')
 
 
+@app.route('/Booking_management')
+def Booking():
+    return render_template('Booking_mng.html')
+
 
 #-------------------END---------------------------------------#
 
@@ -280,6 +284,23 @@ def search_service():
 
 
     return redirect(url_for('show'), result=result)
+
+
+
+###-----------------------Review Block ----->>>>>
+@app.route('/review', methods=['POST'])
+def user_review():
+    db= get_db()
+    cursor=db.cursor()
+    ID =session['id']
+    rv=request.form['review']
+    cursor.execute('''INSERT INTO review (username, review) VALUES (?, ?)''', (ID, rv))
+    db.commit()
+    flash('Review Submitted!', 'success')
+    return redirect(url_for('User_dash'))
+
+
+
 
 
 

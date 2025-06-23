@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %} Users Dashboard | EaseHeaven {% endblock %}
+
+{% block navbar %}
+<div class="container-fluid">
+  <div class="profile-wrapper" style="position: relative; display: flex; align-items: center; gap:  400px;">
+  <h5 style="color: white; margin-left: 350px;">Booking Management</h5>
+
+  <div style="position: relative;">
+    <img src="{{ url_for('static', filename='91.png') }}"
+         alt="Profile"
+         width="30"
+         height="30"
+         id="profile-icon"
+         style="cursor: pointer; border-radius: 50%;">
+
+    <div id="profile-dropdown" style="
+          display: none;
+          position: absolute;
+          top: 40px;
+          right: 0;
+          background-color: #fff;
+          border-radius: 6px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          min-width: 160px;
+          z-index: 1000;">
+      <a href="/EaseHeaven" style="display: block; padding: 10px; text-decoration: none; color: #333;">Dashboard</a>
+      <a href="/" style="display: block; padding: 10px; text-decoration: none; color: #333;">Logout</a>
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}
+
+{% block content %}
+
+
+    
+<div style="margin-left: 10px;">
+        <h3 style=" color: white;">Booking History</h3>
+        <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
+      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+        <h5 style="color: black; margin-left: 10px;">Your Booking History</h5>
+        
+        <br>
+        
+      </div>
+    </div>
+</div>
+
+<div style="margin-left: 10px; margin-top: 50px;">
+        <h3 style=" color: white;">Update Existing Bookings  </h3>
+        <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
+      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+        <h5 style="color: black; margin-left: 10px;"> Update Your Bookings </h5>
+        
+        <br>
+        <div style="display: flex; align-items: flex-start;">
+          <button class="btn btn-success" style="width: 100px; margin-left: 75px;">Update</button>
+          
+          
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const icon = document.getElementById("profile-icon");
+    const dropdown = document.getElementById("profile-dropdown");
+
+    icon.addEventListener("click", function(e){
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+
+
+    });
+
+    window.addEventListener("click", function () {
+    dropdown.style.display = "none";
+  });
+
+</script>
+{% endblock %}

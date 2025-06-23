@@ -15,7 +15,7 @@
 <body style="background-color: rgb(203, 28, 222);">
 
     <nav class="navbar navbar-expand-lg navbar-dark mt-4" style="background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" style="margin-left: 150px;">
         <div class="container justify-content-center">
             {% block navbar %}
             <ul class="navbar-nav d-flex flex-row gap-3">
@@ -60,5 +60,9 @@
         </div>
     </footer>
     {%endblock%}
+
+
+
+    {% block scripts %}{% endblock %}
 </body>
 </html>
