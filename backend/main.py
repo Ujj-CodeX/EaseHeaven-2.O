@@ -225,13 +225,23 @@ def service():
     
     return render_template(url_for('show'))
 
-@app.route('/Show_table', methods=['GET'])
+@app.route('/Show_table', methods=['GET' , 'POST'])
 def show():
     db = get_db()
     cursor = db.cursor()
+
+
+    result = None  # to hold the searched service result
+
+    # If form submitted (POST)
+    if request.method == 'POST':
+        service_name = request.form.get('service_name')
+        cursor.execute("SELECT name, charges FROM service WHERE name = ?", (service_name,))
+        result = cursor.fetchone()
+
     cursor.execute('SELECT name, charges ,id FROM service')
     table1 = cursor.fetchall()
-    return render_template('Admin_dash1.html' , table1=table1)
+    return render_template('Admin_dash1.html' , table1=table1 ,  result=result)
 
 
 @app.route('/delete_service/<int:service_id>', methods=['POST'])
@@ -255,6 +265,21 @@ def update(service_id):
     db.commit()
     flash("Service updated successfully.")
     return redirect(url_for('show'))
+ 
+
+#-------------------Searching of Service ------->>>>
+
+@app.route('/search-service', methods=['POST'])
+def search_service():
+    service= request.form['service_name']
+    
+    db= get_db()
+    cursor=db.cursor()
+    cursor.execute("SELECT * FROM service WHERE name = ?", (service,))
+    result = cursor.fetchone()
+
+
+    return redirect(url_for('show'), result=result)
 
 
 
