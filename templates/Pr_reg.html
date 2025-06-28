@@ -31,8 +31,8 @@
 
                 <input type="email" class="form-control" id="email" placeholder="Email ID" style="font-weight: bold;" name="email"><br>
 
-                <div class="col-auto">
-                    <select id="gender" name="gender" class="form-control">
+                <div class="col-auto" >
+                    <select id="gender" name="gender" class="form-control" style="width: 380px;">
                       <option value="Choose Your Gender">Choose your Gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
@@ -43,12 +43,21 @@
                 <input type="text" class="form-control" id="address" placeholder="Address" style="font-weight: bold;" name="address"><br>
 
                 <input type="text" class="form-control" id="pincode" placeholder="Pincode" style="font-weight: bold;" name="pincode"><br>
+                
+                    <select id="services" name="service" class="form-control" required>
+                    <option value="">Select a service</option>
+                        {% for service_item in service %}
+                    <option value="{{ service_item }}">{{ service_item }}</option>
+                        {% endfor %}
+                    </select><br>
+               
 
                 <input type="tel" class="form-control" id="phone" placeholder="Contact" style="font-weight: bold;" name="contact"><br>
 
                 <input type="number" class="form-control" id="experience" placeholder="Experience in years" style="font-weight: bold;" name="exp"><br>
 
-                <input type="text" class="form-control" id="service" placeholder="Service Type" style="font-weight: bold;" name="service">
+                
+
                 <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 400px; background-color: black; color: white;" >Register Now</button>
                 <h7 style=" margin-top: 20px; margin-left: 120px;">Already have an ID ?</h7><br>
                 <a type="button" href="/Partner_login" class="btn btn-primary" style="margin-top: 20px; margin-left: 150px; width: 100px; background-color: red; color: white;" >Login</a>
@@ -58,3 +67,13 @@
 
         </body>
         </html>
+
+        <style>
+select#gender, select#gender option {
+  font-weight: bold;
+}
+
+select#services, select#services option {
+  font-weight: bold;
+}
+</style>

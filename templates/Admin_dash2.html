@@ -38,7 +38,7 @@
         <div class="side_card" style="display: flex; gap: 40px; align-items: flex-start;">
 
   <!-- SIDE CARD -->
-  <div class="card" style="height: 1500px; width: 250px; border-radius: 8px; background-color: black; padding: 20px;">
+  <div class="card" style="height: 430px; width: 250px; border-radius: 8px; background-color: black; padding: 20px; margin-left: 50px;">
     <a class="nav-link" style="color:whitesmoke; display: block;" href="/Customers_management">Customers Management</a>
     <a class="nav-link" style="color:whitesmoke; display: block;" href="/Partner_Management">Partners Management</a>
     <a class="nav-link" style="color:whitesmoke; display: block;" href="/Show_table">Service Management</a>
@@ -54,9 +54,49 @@
         <h5 style="margin-bottom: 10px; color: white;">Partner Management</h5>
         <div class="card" style="height: 400px; width: 500px; border-radius: 15px; background-color: white;">
           <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
-            <h9 style="color: black; margin-left: 10px;">Pie Chart </h9><br>
-            <h9 style="color: black; margin-left: 10px;">Professionals v/s Service </h9>
+            
+            <h6 style="color: black; margin-left: 10px; font-weight: bold;">Partner Service Breakdown</h9>
             <br>
+    <div style="max-width: 600px; margin: auto;">
+    <canvas id="serviceChart" style="margin-left: 70px;"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    let labels = {{ labels|tojson }};
+    let counts = {{ counts|tojson }};
+
+    const ctx = document.getElementById('serviceChart').getContext('2d');
+    const serviceChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Professionals',
+                data: counts,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+</script>
+
+
+
+
+
+
+
             
           </div>
         </div>
@@ -64,55 +104,148 @@
 
       <!--  -->
       <div>
-        <form class="d-flex" role="search" style="margin-top: 40px; width: 500px;">
-          <input class="form-control mr-2" type="search" placeholder="Search Services by Professional_ID" aria-label="Search Services by Professional_ID">
+        <form class="d-flex" role="search" style="margin-top: 40px; width: 500px;" action="/Show_table2" method="post">
+          <input class="form-control mr-2" type="search" name="username" placeholder="Search Services by Professional_ID" aria-label="Search Services by Professional_ID">
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
-        <div class="card" style="height: 335px; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
-          <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+        <div class="card" style="height: auto; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
+          <div class="mb-3" style="width: 350px; margin-left: 25px; margin-top: 20px;">
             <h4 style="color: black; margin-left: 10px;">Professional Details</h4>
-            <h6 style="color: black; margin-left: 10px;">Name :-</h6>
-            <h6 style="color: black; margin-left: 10px;">Email :-</h6>
-            <h6 style="color: black; margin-left: 10px;">Address :-</h6>
-            <h6 style="color: black; margin-left: 10px;">Phone number :-</h6>
+
+            {% if result %}
+            
+            <h6 style="color: black; margin-left: 10px;">Name :-{{ result[0] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Gender :-{{ result[1] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Phone :-{{ result[2] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Pincode :-{{ result[3] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Address :-{{ result[4] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Email :-{{ result[5] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Experience :-{{ result[6] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Status :-{{ result[7] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Service Type :-{{ result[8] }}</h6>
             <br>
             <div style="display: flex; align-items: flex-start;">
-              <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Block</button>
+      <form method="POST" style="margin-left: 10px;">
+        <input type="hidden" name="username">
+        <button type="submit" name="block_professional" class="btn btn-danger" style="width: 100px;">Block</button>
+      </form>
 
-              <button class="btn btn-success" style="width: 150px; margin-left: 75px;">Unblock</button>
-            </div>
+      <form method="POST" style="margin-left: 10px;">
+        <input type="hidden" name="username" >
+        <button type="submit" name="unblock_professional" class="btn btn-success" style="width: 100px;">Unblock</button>
+      </form>
+    </div>
+            {% else %}
+            <h6 style="color: black; margin-left: 10px;">No Professional Found</h6>
+            {% endif %}
+            
+
+
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CARD 3 -  -->
-    <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white;">
-      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+    </div>
+    </div>
+    <div class="card" style="height:auto; width: 1350px; border-radius: 15px; background-color: white; margin-left: 50px; margin-top: 50px;"  >
+      <div class="mb-3" style="width: 95%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">New Professionals List</h5>
         
         <br>
-        <div style="display: flex; align-items: flex-start;">
-          <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Review</button>
-          <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Reject</button>
 
-          <button class="btn btn-success" style="width: 150px; margin-left: 75px;">Approve</button>
-        </div>
-      </div>
+        <table class="table table-bordered" style="width: 100%;" >
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Gender</th>
+          <th>Experience</th>
+          <th>Service</th>
+          <th>Address</th>
+          <th>Pincode</th>
+        
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table1 %}
+<tr>
+  <td>{{ user1[0] }}</td> 
+  <td>{{ user1[1] }}</td> 
+  <td>{{ user1[2] }}</td>
+  <td>{{ user1[3] }}</td> 
+  <td>{{ user1[4] }}</td> 
+  <td>{{ user1[5] }}</td> 
+  <td>{{ user1[6] }}</td> 
+  <td>{{ user1[7] }}</td> 
+  
+  <td>
+    <div style="display: flex; align-items: flex-start;">
+      <form method="POST" style="margin-left: 10px;">
+        <input type="hidden" name="username" value="{{ user1[0] }}">
+        <button type="submit" name="reject_professional" class="btn btn-danger" style="width: 100px;">Reject</button>
+      </form>
+
+      <form method="POST" style="margin-left: 10px;">
+        <input type="hidden" name="username" value="{{ user1[0] }}">
+        <button type="submit" name="approve_professional" class="btn btn-success" style="width: 100px;">Approve</button>
+      </form>
     </div>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
 
-<div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white;">
-      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+<div class="card" style="height:auto; width: 1350px; border-radius: 15px; background-color: white; margin-left: 50px; margin-top: 50px;"  >
+      <div class="mb-3" style="width: 95%; margin-left: 25px; margin-top: 20px;">
         <h4 style="color: black; margin-left: 10px;">Professionals List</h4>
         
         <br>
+        <table class="table table-bordered" style="width: 100%;">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Service</th>
+          <th>Gender</th>
+          <th>Experience</th>
+          <th>Address</th>
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table2 %}
+        <tr>
+          <td>{{ user1[0] }}</td>
+          <td>{{ user1[1] }}</td>
+          <td>{{ user1[2] }}</td>
+          <td>{{ user1[3] }}</td>
+          <td>{{ user1[4] }}</td>
+          <td>{{ user1[5] }} years</td>
+          <td>{{ user1[6] }}</td>
+
+          
+      
+          
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
         
-      </div>
-    </div>
+  </div>
+</div>
 
 
-    <div style="display: flex; gap: 30px;">
-    <div class="card" style="height: 350px; width: 500px; border-radius: 15px; background-color: white; align-items: flex-start;">
+    <div style="display: flex; gap: 30px;  margin-left: 50px; margin-top: 50px;">
+    <div class="card" style="height: 350px; width: 680px; border-radius: 15px; background-color: white; align-items: flex-start; ">
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
         <h4 style="color: black; margin-left: 10px;">Users Review</h4>
         
@@ -121,7 +254,7 @@
     </div>
 
     
-<div class="card" style="height: 350px; width: 520px; border-radius: 15px; background-color: white; align-items: flex-start;">
+<div class="card" style="height: 350px; width: 650px; border-radius: 15px; background-color: white; align-items: flex-start;">
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
         <h6 style="color: black; margin-left: 10px;">Professionals Feedback</h6>
         

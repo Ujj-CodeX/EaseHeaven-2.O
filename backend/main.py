@@ -33,7 +33,15 @@ def User_reg():
 
 @app.route('/Professional_SignUp')
 def pr_reg():
-    return render_template('Pr_reg.html')
+    db = get_db()
+    cursor = db.cursor()
+    query = "SELECT name FROM service"
+    cursor.execute(query)
+    service = [row[0] for row in cursor.fetchall()]
+    
+
+    return render_template('Pr_reg.html', service=service)
+
 
 @app.route('/EaseHeaven')
 def User_dash():
@@ -53,11 +61,11 @@ def Service():
 
 @app.route('/Partner_Management')
 def Partner_mng():
-    return render_template('Admin_dash2.html')
+    return redirect(url_for('show2'))
 
 @app.route('/Customers_management')
 def Cust_mng():
-    return render_template('Admin_dash3.html')
+    return redirect(url_for('show3'))
 
 @app.route('/Admin_login')
 def Admin_login():
@@ -169,6 +177,7 @@ def admin():
 
 @app.route("/Reg_partner", methods=['GET', 'POST'])
 def Reg_partner():
+
         if request.method == 'POST':
             # Collect form data
             userid = request.form['username']
@@ -179,16 +188,12 @@ def Reg_partner():
             Pincode = request.form['pincode']
             phone = request.form['contact']
             email = request.form['email']
-            status= "Unblocked"
+            status= "INACTIVE"
             exp=request.form['exp']
             serv=request.form['service']
 
-
-            # Insert data into the database
-            db = get_db()
-            cursor = db.cursor()
-
-
+            db=get_db()
+            cursor=db.cursor()
             cursor.execute("SELECT * FROM active_professional WHERE username = ?", (userid,))
             existing_user=cursor.fetchone()
 
@@ -300,6 +305,94 @@ def user_review():
     return redirect(url_for('User_dash'))
 
 
+##------------------Partners Management------>.
+@app.route('/Show_table2', methods=['GET' , 'POST'])
+def show2():
+    db = get_db()
+    cursor = db.cursor()
+
+
+    result = None  # to hold the searched service result
+
+    # If form submitted (POST)
+    if request.method == 'POST':
+        username = request.form.get('username')
+        cursor.execute("SELECT full_name, gender , phone , pincode ,address , email, experience, status , service FROM active_professional WHERE username = ?", (username,))
+        result = cursor.fetchone()
+
+
+
+       ##----Block and Unblock of professionals-----
+
+    cursor.execute('SELECT username, email, phone , service,gender,experience, address FROM active_professional')
+    table2 = cursor.fetchall()
+
+    cursor.execute('SELECT username , full_name, phone , gender , experience , service_type , address , pincode FROM professional')
+    table1 = cursor.fetchall()
+    
+    
+
+    if request.method == 'POST' and 'approve_professional' in request.form:
+        
+        user_id = request.form.get('username')
+        cursor.execute(''' INSERT INTO active_professional (username,password,gender,pincode,phone,address,email,service,full_name,experience,status )
+                       SELECT username,password,gender,pincode,phone,address,email ,service_type ,full_Name,experience,'Unblocked' FROM professional WHERE username = ? ''', (user_id,))
+        cursor.execute('''
+                    DELETE FROM professional
+                    WHERE username = ?
+                ''', (user_id,))
+        db.commit()
+
+    if request.method == 'POST' and 'reject_professional' in request.form:
+        user_id = request.form.get('username')
+        cursor.execute('DELETE FROM professional WHERE username = ?', (user_id,))
+        db.commit()
+
+
+    cursor.execute('SELECT service, COUNT(*) FROM active_professional GROUP BY service')
+    data = cursor.fetchall()
+
+    labels = [row[0] for row in data]
+    counts = [row[1] for row in data]
+
+    return render_template('Admin_dash2.html' , table1=table1 ,  result=result , table2=table2 , labels=labels , counts = counts)
+
+
+
+
+####----------------------Customers Management ----------->>>>
+
+@app.route('/Show_table3', methods=['GET' , 'POST'])
+def show3():
+    db = get_db()
+    cursor = db.cursor()
+
+
+    result = None  # to hold the searched service result
+
+    # If form submitted (POST)
+    if request.method == 'POST':
+        username = request.form.get('username')
+        cursor.execute("SELECT name, gender , phone , pincode ,address , email, status FROM customer_details WHERE username = ?", (username,))
+        result = cursor.fetchone()
+
+
+
+       ##----Block and Unblock of professionals-----
+
+
+    cursor.execute('SELECT username , name, phone , gender , pincode FROM customer_details')
+    table1 = cursor.fetchall()
+    
+    
+
+    cursor.execute('SELECT service, COUNT(username) FROM service_request GROUP BY service')
+    data = cursor.fetchall()
+
+    labels = [row[0] for row in data]
+    counts = [row[1] for row in data]
+
+    return render_template('Admin_dash3.html' , table1=table1 ,  result=result , labels=labels , counts = counts)
 
 
 
