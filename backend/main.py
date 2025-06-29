@@ -51,9 +51,116 @@ def User_dash():
 def Pr_reg():
     return render_template('Pr_reg.html')
 
-@app.route('/Professionals_Dash')
+
+
+
+#####------->>Partners_login---------------->>
+
+@app.route("/login_partner", methods=['GET', 'POST'])
+def login_p():
+    if request.method == 'POST':
+        id = request.form['username']
+        password = request.form['password']
+
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM active_professional WHERE username = ? AND password = ? AND status=? ", (id, password,"Unblocked"))
+        user = cursor.fetchone()
+
+        if user:
+            session['partner_id'] = id
+            return redirect(url_for('Pr_dash'))
+        else:
+            flash('Invalid user ID or password.')
+            return redirect(url_for('home'))
+    return render_template('Partner_login.html')
+
+
+@app.route('/Professionals_Dash',methods=['GET', 'POST'])
 def Pr_dash():
-    return render_template('Pr_Dash.html')
+
+    if 'id' not in session:
+        return redirect('/Partner_login') 
+
+    ID = session['partner_id']
+
+    db = get_db()
+    cursor=db.cursor()
+    cursor.execute('SELECT username , service , duration ,date_o, date_e, ser_st,status FROM service_request WHERE prf_id=? and status=?', (ID, 'Active' ))
+    table1 = cursor.fetchall()
+
+    cursor.execute('SELECT service FROM active_professional WHERE username = ?', (ID,))
+    service_row = cursor.fetchone()
+
+    if service_row:
+        service_name = service_row[0]
+        cursor.execute(
+        'SELECT username, service, duration, date_o, date_e, ser_st, status '
+        'FROM service_request WHERE service = ? AND status IN (?, ?)',
+        (service_name, 'Active', 'Pending')
+        )
+        table2 = cursor.fetchall()
+    else:
+        table2 = []
+
+
+    
+    cursor.execute(
+        'SELECT username, service, duration, date_o, date_e, ser_st, status FROM service_request WHERE prf_id = ? AND status IN (?)'
+        ,
+        (ID, 'Closed')
+        )
+    table3 = cursor.fetchall()
+
+    cursor.execute(
+        'SELECT username, service, duration, date_o, date_e, ser_st, status FROM service_request WHERE status IN (?, ?)'
+        ,
+        ('Active', 'Pending')
+        )
+    table4 = cursor.fetchall()
+    
+
+    if  'Pr_review' in request.form:
+        rv=request.form['review']
+        cursor.execute('''INSERT INTO review (username, review) VALUES (?, ?)''', (ID, rv))
+        db.commit()
+        flash('Review Submitted!', 'success')
+
+
+    srid=request.form['review']
+        
+    if 'accept' in request.form:
+        cursor.execute(
+                '''
+                UPDATE Request SET Ser_st = ? , prfid=? WHERE Srid = ? ''', ( "Accepted",ID,srid))
+        db.commit()
+
+    if 'reject' in request.form:
+        cursor.execute(
+                '''
+                UPDATE Request SET Ser_st = ? , prfid=? WHERE Srid = ? ''', ("Rejected", ID, srid))
+        db.commit()
+
+    
+
+
+    
+
+    result = None  # to hold the searched service result
+
+    
+    if request.method == 'POST':
+        username = request.form.get('customer_id')
+        cursor.execute("SELECT name, gender , phone , pincode ,address , email,status FROM customer_details WHERE username = ? and status=?", (username,'Unblocked'))
+        result = cursor.fetchone()
+
+
+
+
+
+
+
+    return render_template('Pr_Dash.html',table1=table1,result=result,table2=table2,table3=table3,table4=table4)
 
 @app.route('/Service_Management')
 def Service():
@@ -76,9 +183,56 @@ def Partner_login():
     return render_template('Pr_login.html')
 
 
-@app.route('/Booking_management')
+@app.route('/Booking_management', methods=['GET', 'POST'])
 def Booking():
-    return render_template('Booking_mng.html')
+
+    if 'id' not in session:
+        return redirect('/') 
+
+    ID = session['id']
+
+    db = get_db()
+    cursor = db.cursor()
+
+
+    result = None 
+    cursor.execute('SELECT service , duration ,date_o, date_e, ser_st, prf_id FROM service_request WHERE username=? and status=?', (ID, 'Completed' ))
+    table1 = cursor.fetchall()
+
+    cursor.execute('SELECT service , duration ,date_o, date_e, status, prf_id , sr_id FROM service_request WHERE username=? and status=?', (ID, 'Active' ))
+    table2 = cursor.fetchall()
+
+
+
+
+
+    return render_template('Booking_mng.html',table1=table1,result=result,table2=table2)
+
+
+@app.route('/update_request/<int:request_id>', methods=['POST'])
+def update_request(request_id):
+    duration = request.form['duration']
+    start_date = request.form['start_date']
+    end_date = request.form['end_date']
+    status = request.form['status']
+
+    print("Service ID:", request_id)
+    print("Duration:", duration)
+    print("Start Date:", start_date)
+    print("End Date:", end_date)
+    print("Status:", status)
+
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        "UPDATE service_request SET duration = ?, date_o = ?, date_e = ?, status = ? WHERE sr_id = ?",
+        (duration, start_date, end_date, status, request_id)
+    )
+    db.commit()
+    flash("Booking request updated successfully.")
+    return redirect(url_for('Booking'))
+
 
 
 #-------------------END---------------------------------------#
@@ -147,6 +301,8 @@ def login_pg():
             flash('Invalid user ID or password.')
             return redirect(url_for('home'))
     return render_template('User_login.html')
+
+
 
 
 
@@ -463,6 +619,8 @@ def cust_ds():
          
 
     return render_template('User_dash.html', user={'id': ID}, services=services, errorz=errorz, error=error,pins=pins)
+
+
 
 
 

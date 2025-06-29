@@ -32,93 +32,244 @@
 
     <div style="margin-left: 10px;">
         <h3 style=" color: white;">Ongoing Services</h3>
-        <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
+        <form action="/Professionals_Dash" method="post">
+        <div class="card" style="height: auto; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Existing Service Request</h5>
         
         <br>
+
+
+        <table class="table table-bordered" style="width: 900px;">
+      <thead>
+        <tr>
+          <th>Customer_ID</th>
+          <th>Service</th>
+          <th>Duration</th>
+          <th>Date of Start</th>
+          <th>Date of Completion</th>
+          <th>Service Status</th>
+          <th>Status</th>
+          
+
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table1 %}
+        <tr>
+          <td>{{ user1[0] }}</td>
+          <td>{{ user1[1] }}</td>
+          <td>{{ user1[2] }}</td>
+          <td>{{ user1[3] }}</td>
+          <td>{{ user1[4] }}</td>
+          <td>{{ user1[5] }}</td>
+          <td>{{ user1[6] }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
         
       </div>
     </div>
-
+</form>
     </div>
 
     <div style="display: flex; gap: 40px;">
 
     <div style="margin-left: 10px; ">
-        <form class="d-flex" role="search" style="margin-top: 40px; width: 500px;">
-          <input class="form-control mr-2" type="search" placeholder="Search Services by Customer_ID" aria-label="Search Services by Professional_ID">
+        <form class="d-flex" role="search" style="margin-top: 40px; width: 500px;" action="/Professionals_Dash" method="post">
+          <input class="form-control mr-2" type="search" name="customer_id" placeholder="Search Services by Customer_ID" aria-label="Search Services by Professional_ID">
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
         <div class="card" style="height: 300px; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
-          <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
-            <h4 style="color: black; margin-left: 10px;">Customer Details</h4>
-            <h6 style="color: black; margin-left: 10px;">Name :-</h6>
-            <h6 style="color: black; margin-left: 10px;">Email :-</h6>
-            <h6 style="color: black; margin-left: 10px;">Address :-</h6>
-            <h6 style="color: black; margin-left: 10px;">Phone number :-</h6>
-            <br>
-            <div style="display: flex; align-items: flex-start;">
-              <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Block</button>
+          <div class="mb-3" style="width: 350px; margin-left: 25px; margin-top: 20px;">
+            {% if result %}
+             <h4 style="color: black; margin-left: 10px;">Customer Details</h4>
+            <h6 style="color: black; margin-left: 10px;">Name :-{{ result[0] }} </h6>
+            <h6 style="color: black; margin-left: 10px;">Gender :-{{ result[1] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Phone :-{{ result[2] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Pincode :-{{ result[3] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Address :-{{ result[4] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Email :-{{ result[5] }}</h6>
+            <h6 style="color: black; margin-left: 10px;">Status :-{{ result[6] }}</h6>
+            
 
-              <button class="btn btn-success" style="width: 150px; margin-left: 75px;">Unblock</button>
-            </div>
+            {% else %}
+            <h6 style="color: black; margin-left: 10px;">No Customer Found</h6>
+            {% endif %}
           </div>
         </div>
       </div>
-
+      
+      
+      
       <div class="card" style="height: 380px; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
           <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
-          <h5 style="color: black; margin-left: 10px;">Write a Customer Review</h5>
+          <h5 style="color: black; margin-left: 10px;">Write Review</h5>
       </div>
-      <form class="d-flex" style="margin-top: 40px; width: 500px;">
-        <textarea class="form-control mr-2" style="margin-left: 50px; height: 200px; width: 300px;" placeholder="Review" aria-label="Write your review here"></textarea>
-        <button class="btn btn-outline-light" type="submit" style="width: 100px; color: white; background-color: black;">Submit Review</button>
+      <form class="d-flex" style="margin-top: 40px; width: 500px;" action="/Professionals_Dash" method="post">
+        <textarea class="form-control mr-2" style="margin-left: 50px; height: 200px; width: 300px;" name="review" placeholder="Review" aria-label="Write your review here"></textarea>
+        <button class="btn btn-outline-light" type="submit" name="Pr_review" style="width: 100px; color: white; background-color: black;">Submit Review</button>
       </form>
       </div>
       </div>
 
       <div>
+        <form action="/Professionals_Dash" method="post" >
         <div class="card" style="height: 400px; width: 1050px; margin-left: 10px; margin-top: 80px; border-radius: 15px; background-color: white;">
-      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+      <div class="mb-3" style="width: 90%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Your Service Request</h5>
         
-        <br>
-        <div style="display: flex; align-items: flex-start;">
-          <button class="btn btn-success" style="width: 100px; margin-left: 75px;">Accept</button>
-          <button class="btn btn-danger" style="width: 100px; margin-left: 75px;">Reject</button>
+        <table class="table table-bordered" style="width: 100%;" >
+      <thead>
+        <tr>
+          <th>Customer_ID</th>
+          <th>Service</th>
+          <th>Duration</th>
+          <th>Date of Start</th>
+          <th>Date of Completion</th>
+          <th>Service Status</th>
+          <th>Status</th>
+        
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table2 %}
+<tr>
+  <td>{{ user1[0] }}</td> 
+  <td>{{ user1[1] }}</td> 
+  <td>{{ user1[2] }}</td>
+  <td>{{ user1[3] }}</td> 
+  <td>{{ user1[4] }}</td> 
+  <td>{{ user1[5] }}</td> 
+  <td>{{ user1[6] }}</td> 
+  
+  
+  <td>
+    <div style="display: flex; align-items: flex-start;">
+      <form method="POST" style="margin-left: 10px;">
+        <input type="hidden" name="username" value="{{ user1[0] }}">
+        <button type="submit" name="reject_professional" class="btn btn-danger" style="width: 100px;">Accept</button>
+      </form>
 
+      <form method="POST" style="margin-left: 10px;">
+        <input type="hidden" name="username" value="{{ user1[0] }}">
+        <button type="submit" name="approve_professional" class="btn btn-success" style="width: 100px;">Reject</button>
+      </form>
+    </div>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
           
         </div>
       </div>
-    </div>
+    
+    </form>
       </div>
+    </div>
 
      <div style="margin-left: 10px; margin-top: 50px;">
+      <form action="/Professionals_Dash" method="post" >
         <h3 style=" color: white;">Your Service History</h3>
         <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
-      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+      <div class="mb-3" style="width: 90%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Service History</h5>
         
         <br>
         
+      <table class="table table-bordered" style="width: 100%;" >
+      <thead>
+        <tr>
+          <th>Customer_ID</th>
+          <th>Service</th>
+          <th>Duration</th>
+          <th>Date of Start</th>
+          <th>Date of Completion</th>
+          <th>Service Status</th>
+          <th>Status</th>
+        
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table3 %}
+<tr>
+  <td>{{ user1[0] }}</td> 
+  <td>{{ user1[1] }}</td> 
+  <td>{{ user1[2] }}</td>
+  <td>{{ user1[3] }}</td> 
+  <td>{{ user1[4] }}</td> 
+  <td>{{ user1[5] }}</td> 
+  <td>{{ user1[6] }}</td> 
+  
+  
+  <td>
+    
+    </div>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+          
+        </div>
       </div>
-      </div>
+    
+    </form>
 
     </div>
 
 
     <div style="margin-left: 10px; margin-top: 50px;">
         <h3 style=" color: white;">Overall Service Requests</h3>
+        <form action="/Professionals_Dash" method="post" >
+        
         <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
-      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+      <div class="mb-3" style="width: 90%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Overall Service Requests</h5>
         
         <br>
+
+        <table class="table table-bordered" style="width: 100%;" >
+      <thead>
+        <tr>
+          <th>Customer_ID</th>
+          <th>Service</th>
+          <th>Duration</th>
+          <th>Date of Start</th>
+          <th>Date of Completion</th>
+          <th>Service Status</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table4 %}
+<tr>
+  <td>{{ user1[0] }}</td> 
+  <td>{{ user1[1] }}</td> 
+  <td>{{ user1[2] }}</td>
+  <td>{{ user1[3] }}</td> 
+  <td>{{ user1[4] }}</td> 
+  <td>{{ user1[5] }}</td> 
+  <td>{{ user1[6] }}</td> 
+  
+
+    
+    </div>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
         
       </div>
     </div>
-
+</form>
     </div>
 
   {% endblock %}

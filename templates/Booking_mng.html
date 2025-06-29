@@ -40,31 +40,115 @@
 
     
 <div style="margin-left: 10px;">
+     <form action="/Booking_management",  method="post" >
         <h3 style=" color: white;">Booking History</h3>
         <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+
         <h5 style="color: black; margin-left: 10px;">Your Booking History</h5>
         
         <br>
+
+        
+
+
+        <table class="table table-bordered" style="width: 900px;">
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Duration</th>
+          <th>Date of Start</th>
+          <th>Date of Completion</th>
+          <th>Status</th>
+          <th>Professional</th>
+
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table1 %}
+        <tr>
+          <td>{{ user1[0] }}</td>
+          <td>{{ user1[1] }}</td>
+          <td>{{ user1[2] }}</td>
+          <td>{{ user1[3] }}</td>
+          <td>{{ user1[4] }}</td>
+          <td>{{ user1[5] }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
         
       </div>
     </div>
+    </form>
 </div>
 
 <div style="margin-left: 10px; margin-top: 50px;">
         <h3 style=" color: white;">Update Existing Bookings  </h3>
-        <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
+        <form action="/Booking_management",  method="post" >
+        <div class="card" style="height: auto; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;"> Update Your Bookings </h5>
-        
+
+
         <br>
-        <div style="display: flex; align-items: flex-start;">
-          <button class="btn btn-success" style="width: 100px; margin-left: 75px;">Update</button>
+        <br>
+
+        <table class="table table-bordered" style="width: 900px;">
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Duration</th>
+          <th>Date of Start</th>
+          <th>Date of Completion</th>
+          <th>Status</th>
+          <th>Professional</th>
+          <th>Request ID</th>
+
           
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table2 %}
+        <tr>
+          <td>{{ user1[0] }}</td>
+          <td>{{ user1[1] }}</td>
+          <td>{{ user1[2] }}</td>
+          <td>{{ user1[3] }}</td>
+          <td>{{ user1[4] }}</td>
+          <td>{{ user1[5] }}</td>
+          <td>{{ user1[6] }}</td>
+
+          <td>
           
-        </div>
+          <div style="display: flex; align-items: flex-start;">
+
+
+        <form method="POST" action="/update_request/{{ user1[6] }}" id="form-{{ user1[6] }}">
+             <input type="hidden" name="duration" value="{{ user1[1] }}">
+             <input type="hidden" name="start_date" value="{{ user1[2] }}">
+             <input type="hidden" name="end_date" value="{{ user1[3] }}">
+             <input type="hidden" name="status" value="{{ user1[4] }}">
+         <button type="button" class="btn btn-success btn-sm" style="margin-left: 20px; height: 38px;"onclick="editservice({{ user1[6] }}, '{{ user1[1] }}', '{{ user1[2] }}', '{{ user1[3] }}', '{{ user1[4] }}')">
+           Update
+            </button>
+        </form>
+
+          </div>
+          </td>
+        </tr>
+        
+        {% endfor %}
+      </tbody>
+    </table>
+        
+        
+
       </div>
     </div>
+  </form>
 </div>
 
 
@@ -87,6 +171,44 @@
     window.addEventListener("click", function () {
     dropdown.style.display = "none";
   });
+
+
+
+  function editservice(id, currentDuration, currentStartDate, currentEndDate, currentStatus) {
+  const newDuration = prompt("Enter new duration (in days):", currentDuration);
+  if (newDuration === null || isNaN(newDuration)) {
+    alert("Invalid duration");
+    return;
+  }
+
+  const newStartDate = prompt("Enter new start date (YYYY-MM-DD):", currentStartDate);
+  if (newStartDate === null || !/^\d{4}-\d{2}-\d{2}$/.test(newStartDate)) {
+    alert("Invalid start date format");
+    return;
+  }
+
+  const newEndDate = prompt("Enter new end date (YYYY-MM-DD):", currentEndDate);
+  if (newEndDate === null || !/^\d{4}-\d{2}-\d{2}$/.test(newEndDate)) {
+    alert("Invalid end date format");
+    return;
+  }
+
+  const newStatus = prompt("Enter new status (Active or Closed):", currentStatus);
+  if (newStatus === null || (newStatus !== "Active" && newStatus !== "Closed")) {
+    alert("Status must be 'Active' or 'Closed'");
+    return;
+  }
+
+  const form = document.getElementById(`form-${id}`);
+  form.querySelector('input[name="duration"]').value = newDuration;
+  form.querySelector('input[name="start_date"]').value = newStartDate;
+  form.querySelector('input[name="end_date"]').value = newEndDate;
+  form.querySelector('input[name="status"]').value = newStatus;
+
+  form.submit();
+  console.log("Trying to submit form with id: form-" + id);
+
+}
 
 </script>
 {% endblock %}
