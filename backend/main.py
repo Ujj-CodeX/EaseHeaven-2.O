@@ -396,6 +396,76 @@ def show3():
 
 
 
+########============---Users Dashboard---------------->
+
+@app.route('/cust_ds', methods=['GET', 'POST'])
+def cust_ds():
+    if 'id' not in session:
+        return redirect('/login') 
+
+    ID = session['id']
+    services = []
+    error = None
+    errorz = None
+
+    db = get_db()
+    cursor = db.cursor()
+
+    if request.method == 'POST':
+        pins = request.form.get('pincode')
+        days = request.form.get('days')
+        service = request.form.get('service')
+        date1 = request.form.get('date1')
+        date2 = request.form.get('date2')
+
+        if 'fetch_service' in request.form:
+            if not pins:
+                errorz = "Pin code is required"
+            else:
+                query = "SELECT DISTINCT service FROM active_professional WHERE pincode = ?"
+                cursor.execute(query, (pins,))
+                services = [row[0] for row in cursor.fetchall()]
+
+                if not services:
+                    errorz = f"No services available for pin code {pins}"
+
+        elif 'book' in request.form:
+            if not service or not days:
+                error = "Please select a service and enter the number of days"
+            else:
+                try:
+                    print("SERVICE:", service)
+                    print("DAYS:", days)
+                    print("DATE1:", date1)
+                    print("DATE2:", date2)
+
+                    cursor.execute(
+                        '''INSERT INTO service_request (username, service, duration, date_o, date_e, ser_st, status,prf_id) 
+                           VALUES (?, ?, ?, ?, ?, ?, ?,?)''',
+                        (ID, service, days, date1, date2, 'Pending', 'Active','Pending')
+                    )
+                    db.commit()
+                    flash('Booking successful!', 'success')
+                except Exception as e:
+                    db.rollback()
+                    error = "An error occurred while processing your booking. Please try again."
+
+
+        if 'submit_review' in request.form:
+            rv=request.form['review']
+            cursor.execute(
+                 '''INSERT INTO review (username, review) 
+                 VALUES (?, ?)''', (ID, rv)
+             )
+            db.commit()
+            flash('Review Submitted!', 'success')
+
+         
+
+    return render_template('User_dash.html', user={'id': ID}, services=services, errorz=errorz, error=error,pins=pins)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
