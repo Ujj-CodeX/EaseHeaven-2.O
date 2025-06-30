@@ -4,13 +4,13 @@
 
 {% block content %}
 
-    <div class="heading" style="margin-left: 50px; margin-top:100px; color: white;">
+    <div class="heading" style="margin-left: 200px; margin-top:100px; color: white;">
         <h1>EaseHeaven</h1>
         <h5>Ease in Comfort</h5>
     </div>
 
     <div style="display: flex; align-items: flex-start; gap: 120px; margin-top: 20px;">
-        <div class="card" style="height: 350px; width: 300px; margin-left: 20px; margin-top: 50px; border-radius: 10px;">
+        <div class="card" style="height: 350px; width: 300px; margin-left: 200px; margin-top: 50px; border-radius: 10px;">
             <div class="mb-3" style="width: 250px; margin-left: 20px; margin-top: 20px;">
             <form action="{{ url_for('login_pg') }}" method="post">
                 <label for="username" class="form-label" style="color: black;">Username</label>
@@ -39,14 +39,18 @@
         </div>
     </div>
 
-    <div class="heading" style="margin-left: 0px; margin-top:100px; color: white;">
+    <div class="heading" style="margin-left: 200px; margin-top:100px; color: white;">
         <h5>Book Quick Service</h5>
         <div class="mb-3 d-flex">
             <select class="form-select" id="city" style="width: 250px; height: 30px; border-radius: 8px;">
                 <option selected disabled>Select City</option>
-                <option value="india">India</option>
-                <option value="usa">USA</option>
-                <option value="uk">UK</option>
+                <option value="india">Lucknow</option>
+                <option value="india">Gorakhpur</option>
+                <option value="usa">Varanasi</option>
+                <option value="uk">Prayagraj</option>
+                <option value="uk">Delhi</option>
+                <option value="uk">Harayana</option>
+
             </select>
 
             <select class="form-select" id="service" style="margin-left: 20px; height: 30px; border-radius: 8px;">
@@ -60,7 +64,7 @@
         </div>
     </div>
 
-    <div class="card" style="height: 900px; width: 1200px; margin-left: 0px; margin-top: 50px; border-radius: 10px;">
+    <div class="card" style="height: 900px; width: 1200px; margin-left: 180px; margin-top: 50px; border-radius: 10px;">
         <h3 style="color:black; margin-top: 50px; margin-left: 50px;">Services We Provide</h3>
         <div class="minicards" style="display: flex; align-items: flex-start; gap: 50px;">
             <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">

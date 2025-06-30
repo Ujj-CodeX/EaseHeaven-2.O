@@ -4,25 +4,15 @@
 
 {% block navbar %}
         
-        <div class="container-fluid" >
-            <img src="menu.png" onclick="toggleMenu()" style="width:30px;cursor:pointer;">
-
-            <div id="menu" style="display:none;">
-                  <a href="#">Home</a><br>
-                  <a href="#">About</a>
-            </div>
-    
-        <form class="d-flex" role="search" style="margin-left: 300px;">
-      <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-light" type="submit">Search</button>
-    </form>
-       
-    <div class="ml-auto" style="display: flex; align-items: flex-start;">
-        <H5 style="color: white;">Welcome, Professional</H5>
-        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-        </div>
-
         
+    
+     <div style="display: flex; align-items: flex-start; gap: 350px;">  
+    <div class="ml-auto" style="display: flex; align-items: flex-start;">
+        
+        <H5 style="color: white;">EaseHeaven</H5>
+        
+        </div>
+        <H5 style="color: white;">Welcome, Professional</H5>
 </div>
 
 {% endblock %}

@@ -79,9 +79,7 @@ def login_p():
 @app.route('/Professionals_Dash',methods=['GET', 'POST'])
 def Pr_dash():
 
-    if 'id' not in session:
-        return redirect('/Partner_login') 
-
+    
     ID = session['partner_id']
 
     db = get_db()
@@ -127,20 +125,7 @@ def Pr_dash():
         flash('Review Submitted!', 'success')
 
 
-    srid=request.form['review']
-        
-    if 'accept' in request.form:
-        cursor.execute(
-                '''
-                UPDATE Request SET Ser_st = ? , prfid=? WHERE Srid = ? ''', ( "Accepted",ID,srid))
-        db.commit()
-
-    if 'reject' in request.form:
-        cursor.execute(
-                '''
-                UPDATE Request SET Ser_st = ? , prfid=? WHERE Srid = ? ''', ("Rejected", ID, srid))
-        db.commit()
-
+    
     
 
 
@@ -406,7 +391,12 @@ def show():
 
     cursor.execute('SELECT name, charges ,id FROM service')
     table1 = cursor.fetchall()
-    return render_template('Admin_dash1.html' , table1=table1 ,  result=result)
+
+    cursor.execute('SELECT username, review FROM review')
+    table2 = cursor.fetchall()
+
+    
+    return render_template('Admin_dash1.html' , table1=table1 ,  result=result , table2=table2)
 
 
 @app.route('/delete_service/<int:service_id>', methods=['POST'])
@@ -485,6 +475,9 @@ def show2():
 
     cursor.execute('SELECT username , full_name, phone , gender , experience , service_type , address , pincode FROM professional')
     table1 = cursor.fetchall()
+
+    cursor.execute('SELECT username, review FROM review')
+    table3 = cursor.fetchall()
     
     
 
@@ -511,7 +504,7 @@ def show2():
     labels = [row[0] for row in data]
     counts = [row[1] for row in data]
 
-    return render_template('Admin_dash2.html' , table1=table1 ,  result=result , table2=table2 , labels=labels , counts = counts)
+    return render_template('Admin_dash2.html' , table1=table1 ,  result=result , table2=table2 , table3=table3,labels=labels , counts = counts)
 
 
 
