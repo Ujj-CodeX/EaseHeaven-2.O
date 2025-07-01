@@ -27,6 +27,10 @@ def get_db():
 def home():
     return render_template('Home.html')  # This will include base.html properly
 
+@app.route('/About')
+def about():
+    return render_template('About.html')
+
 @app.route('/Registration')
 def User_reg():
     return render_template('User_reg.html')
@@ -395,8 +399,12 @@ def show():
     cursor.execute('SELECT username, review FROM review')
     table2 = cursor.fetchall()
 
+    cursor.execute('SELECT username, review FROM review')
+    table3 = cursor.fetchall()
     
-    return render_template('Admin_dash1.html' , table1=table1 ,  result=result , table2=table2)
+
+    
+    return render_template('Admin_dash1.html' , table1=table1 ,  result=result , table2=table2, table3=table3)
 
 
 @app.route('/delete_service/<int:service_id>', methods=['POST'])
@@ -532,6 +540,10 @@ def show3():
 
     cursor.execute('SELECT username , name, phone , gender , pincode FROM customer_details')
     table1 = cursor.fetchall()
+
+    cursor.execute('SELECT username, review FROM review')
+    table3 = cursor.fetchall()
+    
     
     
 
@@ -541,7 +553,7 @@ def show3():
     labels = [row[0] for row in data]
     counts = [row[1] for row in data]
 
-    return render_template('Admin_dash3.html' , table1=table1 ,  result=result , labels=labels , counts = counts)
+    return render_template('Admin_dash3.html' , table1=table1 , table3=table3, result=result , labels=labels , counts = counts)
 
 
 

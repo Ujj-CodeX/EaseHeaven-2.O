@@ -5,13 +5,13 @@
 {% block navbar %}
 <div class="container-fluid">
   <div class="profile-wrapper" style="position: relative; display: flex; align-items: center; gap:  400px;">
-  <h5 style="color: white; margin-left: 350px;">Booking Management</h5>
+  <h5 style="color: white; margin-left: 100px; margin-top: 8px;">Booking Management</h5>
 
   <div style="position: relative;">
     <img src="{{ url_for('static', filename='91.png') }}"
          alt="Profile"
          width="30"
-         height="30"
+         height="25"
          id="profile-icon"
          style="cursor: pointer; border-radius: 50%;">
 
@@ -39,7 +39,7 @@
 
 
     
-<div style="margin-left: 10px;">
+<div style="margin-left: 200px;">
      <form action="/Booking_management",  method="post" >
         <h3 style=" color: white;">Booking History</h3>
         <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
@@ -85,7 +85,7 @@
     </form>
 </div>
 
-<div style="margin-left: 10px; margin-top: 50px;">
+<div style="margin-left: 200px; margin-top: 50px;">
         <h3 style=" color: white;">Update Existing Bookings  </h3>
         <form action="/Booking_management",  method="post" >
         <div class="card" style="height: auto; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">

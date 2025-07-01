@@ -3,14 +3,34 @@
 {% block title %} Admin Dashboard | EaseHeaven {% endblock %}
 
 {% block navbar %}
+<div class="container-fluid">
 
-    <div class="ml-auto" style="display: flex; align-items: flex-start;">
-        <H5 style="color: white;">Welcome, Admin</H5>
-        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-        </div>
 
+    <div class="ml-auto" style="display: flex; align-items: flex-start; gap: 10px; ">
+        <H5 style="color: white; margin-left: 500px; margin-top: 8px;" >Welcome, Admin</H5>
         
+     
+
+
+  <div style="position: relative;">
+    <img src="{{ url_for('static', filename='91.png') }}" alt="Profile" id="profile-icon" width="30" height="24" class="d-inline-block align-text-top" style="margin-top: 8px; cursor: pointer;">
+
+    <div id="profile-dropdown" style="
+          display: none;
+          position: absolute;
+          top: 40px;
+          right: 0;
+          background-color: #fff;
+          border-radius: 6px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          width: 210px;
+          z-index: 1000;">
+      <a href="/" style="display: block; padding: 10px; text-decoration: none; color: #333;">Home</a>
+      <a href="/Admin_login" style="display: block; padding: 10px; text-decoration: none; color: #333;">Logout</a>
     </div>
+  </div>
+</div>
+</div>
 
 {% endblock %}
 
@@ -192,6 +212,20 @@
     form.submit();
   }
 
+
+const icon = document.getElementById("profile-icon");
+    const dropdown = document.getElementById("profile-dropdown");
+
+    icon.addEventListener("click", function(e){
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+
+
+    });
+
+    window.addEventListener("click", function () {
+    dropdown.style.display = "none";
+  });
   
 </script>
 {% endblock %}

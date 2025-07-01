@@ -6,16 +6,14 @@
 <div class="container-fluid">
 
 
-    <div class="profile-wrapper" style="position: relative; display: flex; align-items: center; gap: 15px;">
-    <h5 style="color: white; margin-left: 600px;">Welcome, User</h5>
+    <div class="ml-auto" style="display: flex; align-items: flex-start; gap: 10px; ">
+        <H5 style="color: white; margin-left: 500px; margin-top: 8px;" >Welcome, User</H5>
+        
+     
+
 
   <div style="position: relative;">
-    <img src="{{ url_for('static', filename='91.png') }}"
-         alt="Profile"
-         width="30"
-         height="25"
-         id="profile-icon"
-         style="cursor: pointer; border-radius: 50%;">
+    <img src="{{ url_for('static', filename='91.png') }}" alt="Profile" id="profile-icon" width="30" height="24" class="d-inline-block align-text-top" style="margin-top: 8px; cursor: pointer;">
 
     <div id="profile-dropdown" style="
           display: none;

@@ -1,40 +1,44 @@
-<!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>EaseHeaven</title>
-        <link rel="icon" type="image/png" hrefhref="{{ url_for('static', filename='icon.png') }}">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-        <nav class="navbar navbar-expand-lg navbar-dark mt-4" style="background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-         
+{% extends "base.html" %}
+
+{% block title %} Admin Dashboard | EaseHeaven {% endblock %}
+
+{% block navbar %}
+
+    <div class="container-fluid">
+
+
+    <div class="ml-auto" style="display: flex; align-items: flex-start; gap: 10px; ">
+        <H5 style="color: white; margin-left: 500px; margin-top: 8px;" >Welcome, Admin</H5>
         
-        <div class="container-fluid" >
-            <img src="menu.png" onclick="toggleMenu()" style="width:30px;cursor:pointer;">
+     
 
-            <div id="menu" style="display:none;">
-                  <a href="#">Home</a><br>
-                  <a href="#">About</a>
-            </div>
-    
-        <form class="d-flex" role="search" style="margin-left: 300px;">
-      <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-light" type="submit">Search</button>
-    </form>
-       
 
-    <div class="ml-auto" style="display: flex; align-items: flex-start;">
-        <H5 style="color: white;">Welcome, Admin</H5>
-        <img src="{{ url_for('static', filename='56.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-        </div>
+  <div style="position: relative;">
+    <img src="{{ url_for('static', filename='91.png') }}" alt="Profile" id="profile-icon" width="30" height="24" class="d-inline-block align-text-top" style="margin-top: 8px; cursor: pointer;">
 
-        </nav>
+    <div id="profile-dropdown" style="
+          display: none;
+          position: absolute;
+          top: 40px;
+          right: 0;
+          background-color: #fff;
+          border-radius: 6px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          width: 210px;
+          z-index: 1000;">
+      <a href="/" style="display: block; padding: 10px; text-decoration: none; color: #333;">Home</a>
+      <a href="/Admin_login" style="display: block; padding: 10px; text-decoration: none; color: #333;">Logout</a>
+    </div>
+  </div>
+</div>
 </div>
 
-    </head>
-    <body style="background-color: rgb(203, 28, 222);">
+{% endblock %}
+
+    
+{% block content %}
+
+    
         <div class="side_card" style="display: flex; gap: 40px; align-items: flex-start;">
 
   <!-- SIDE CARD -->
@@ -104,7 +108,7 @@
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
         <div class="card" style="height: auto; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
-          <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+          <div class="mb-3" style="width: 400px; margin-left: 25px; margin-top: 20px;">
             {% if result %}
             
             <h4 style="color: black; margin-left: 10px;">Customer Details</h4>
@@ -138,13 +142,14 @@
     </div>
 
     <!-- CARD 3 -  -->
-    <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white;">
+    <div class="card" style="height: 500px; width: 1050px; border-radius: 15px; background-color: white;">
       <div class="mb-3" style="width: 90%px; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Users List</h5>
+        <div style="overflow-y: auto; height: 280px; width: 95%; margin-left: 10px;">
         
         <br>
 
-        <table class="table table-bordered" style="width: 95%;" >
+        <table class="table table-bordered" >
       <thead>
         <tr>
           <th>Username</th>
@@ -168,6 +173,7 @@
 {% endfor %}
 </tbody>
 </table>
+</div>
 
 </div>
 </div>
@@ -180,6 +186,26 @@
     <div class="card" style="height: 350px; width: 500px; border-radius: 15px; background-color: white; align-items: flex-start;">
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
         <h4 style="color: black; margin-left: 10px;">Users Review</h4>
+        <div style="overflow-y: auto; height: 280px; width: 450px; margin-left: 10px;">
+        <table class="table table-bordered" style="width: 650px;">
+      <thead>
+        <tr>
+          <th style="width: 100px;">Username</th>
+          <th style="width: 300;">Review</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table3 %}
+        <tr>
+          <td >{{ user1[0] }}</td>
+          <td>{{ user1[1] }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
         
         
       </div>
@@ -205,22 +231,21 @@
 
   </div>
 </div>
-<footer class="bg-dark text-white text-center text-lg-start" style="margin-top: 200px;">
-  <div class="container p-4">
-    <div class="row">
-      
-      <div class="col-lg-4 col-md-12 mb-4 mb-md-0" style="margin-left: 370px;">
-        <h5 class="text-uppercase">Contact</h5>
-        <p>Email: info@example.com</p>
-        <p>Phone: +1 234 567 890</p>
-      </div>
-    </div>
-  </div>
+<script>
+  const icon = document.getElementById("profile-icon");
+    const dropdown = document.getElementById("profile-dropdown");
 
-  <div class="text-center p-3 bg-secondary">
-    © 2025 Your Company. All rights reserved.
-  </div>
-</footer>
+    icon.addEventListener("click", function(e){
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
 
-        </body>
-        </html>
+
+    });
+
+    window.addEventListener("click", function () {
+    dropdown.style.display = "none";
+  });
+</script>
+
+
+  {% endblock %}

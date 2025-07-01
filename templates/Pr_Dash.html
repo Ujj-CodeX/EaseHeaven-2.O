@@ -6,21 +6,45 @@
         
         
     
-     <div style="display: flex; align-items: flex-start; gap: 350px;">  
-    <div class="ml-auto" style="display: flex; align-items: flex-start;">
+     <div class="container-fluid">
+
+
+    <div class="ml-auto" style="display: flex; align-items: flex-start; gap: 10px; ">
+        <H5 style="color: white; margin-left: 500px; margin-top: 8px;" >Welcome, Professional</H5>
         
-        <H5 style="color: white;">EaseHeaven</H5>
-        
-        </div>
-        <H5 style="color: white;">Welcome, Professional</H5>
+     
+
+
+  <div style="position: relative;">
+    <img src="{{ url_for('static', filename='91.png') }}" alt="Profile" id="profile-icon" width="30" height="24" class="d-inline-block align-text-top" style="margin-top: 8px; cursor: pointer;">
+
+    <div id="profile-dropdown" style="
+          display: none;
+          position: absolute;
+          top: 40px;
+          right: 0;
+          background-color: #fff;
+          border-radius: 6px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          width: 210px;
+          z-index: 1000;">
+      <a href="/" style="display: block; padding: 10px; text-decoration: none; color: #333;">Home</a>
+      <a href="/Partner_login" style="display: block; padding: 10px; text-decoration: none; color: #333;">Logout</a>
+    </div>
+  </div>
 </div>
+</div>
+     
+        
+    
+        
 
 {% endblock %}
 
     
 {% block content %}
 
-    <div style="margin-left: 10px;">
+    <div style="margin-left: 200px;">
         <h3 style=" color: white;">Ongoing Services</h3>
         <form action="/Professionals_Dash" method="post">
         <div class="card" style="height: auto; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
@@ -68,7 +92,7 @@
 
     <div style="display: flex; gap: 40px;">
 
-    <div style="margin-left: 10px; ">
+    <div style="margin-left: 200px; ">
         <form class="d-flex" role="search" style="margin-top: 40px; width: 500px;" action="/Professionals_Dash" method="post">
           <input class="form-control mr-2" type="search" name="customer_id" placeholder="Search Services by Customer_ID" aria-label="Search Services by Professional_ID">
           <button class="btn btn-outline-light" type="submit">Search</button>
@@ -108,7 +132,7 @@
 
       <div>
         <form action="/Professionals_Dash" method="post" >
-        <div class="card" style="height: 400px; width: 1050px; margin-left: 10px; margin-top: 80px; border-radius: 15px; background-color: white;">
+        <div class="card" style="height: 400px; width: 1050px; margin-left: 200px; margin-top: 80px; border-radius: 15px; background-color: white;">
       <div class="mb-3" style="width: 90%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Your Service Request</h5>
         
@@ -163,7 +187,7 @@
       </div>
     </div>
 
-     <div style="margin-left: 10px; margin-top: 50px;">
+     <div style="margin-left: 200px; margin-top: 50px;">
       <form action="/Professionals_Dash" method="post" >
         <h3 style=" color: white;">Your Service History</h3>
         <div class="card" style="height: 400px; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
@@ -215,7 +239,7 @@
     </div>
 
 
-    <div style="margin-left: 10px; margin-top: 50px;">
+    <div style="margin-left: 200px; margin-top: 50px;">
         <h3 style=" color: white;">Overall Service Requests</h3>
         <form action="/Professionals_Dash" method="post" >
         
@@ -261,6 +285,23 @@
     </div>
 </form>
     </div>
+
+
+<script>
+  const icon = document.getElementById("profile-icon");
+    const dropdown = document.getElementById("profile-dropdown");
+
+    icon.addEventListener("click", function(e){
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+
+
+    });
+
+    window.addEventListener("click", function () {
+    dropdown.style.display = "none";
+  });
+</script>
 
   {% endblock %}
     
