@@ -128,17 +128,15 @@
             <h6 style="color: black; margin-left: 10px;">Status :-{{ result[7] }}</h6>
             <h6 style="color: black; margin-left: 10px;">Service Type :-{{ result[8] }}</h6>
             <br>
-            <div style="display: flex; align-items: flex-start;">
-      <form method="POST" style="margin-left: 10px;">
-        <input type="hidden" name="username">
-        <button type="submit" name="block_professional" class="btn btn-danger" style="width: 100px;">Block</button>
-      </form>
 
-      <form method="POST" style="margin-left: 10px;">
-        <input type="hidden" name="username" >
-        <button type="submit" name="unblock_professional" class="btn btn-success" style="width: 100px;">Unblock</button>
-      </form>
-    </div>
+            
+        <div style="display: flex; align-items: flex-start; gap: 20px;">
+       <form action="/Show_table2" method="post" style="display: flex; gap: 20px;">
+          <input type="hidden" name="username" value="{{ username }}">
+          <button type="submit" name="action" value="block" class="btn btn-danger" style="width: 100px;">Block</button>
+          <button type="submit" name="action" value="unblock" class="btn btn-success" style="width: 100px;">Unblock</button>
+        </form>
+      </div>
             {% else %}
             <h6 style="color: black; margin-left: 10px;">No Professional Found</h6>
             {% endif %}
@@ -152,11 +150,12 @@
 
     </div>
     </div>
-    <div class="card" style="height:auto; width: 1350px; border-radius: 15px; background-color: white; margin-left: 50px; margin-top: 50px;"  >
+    <div class="card" style="height:500px; width: 1350px; border-radius: 15px; background-color: white; margin-left: 50px; margin-top: 50px;"  >
       <div class="mb-3" style="width: 95%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">New Professionals List</h5>
         
         <br>
+                <div style="overflow-y: auto; height: 280px; margin-left: 10px;">
 
         <table class="table table-bordered" style="width: 100%;" >
       <thead>
@@ -204,12 +203,14 @@
 </table>
 </div>
 </div>
+</div>
 
-<div class="card" style="height:auto; width: 1350px; border-radius: 15px; background-color: white; margin-left: 50px; margin-top: 50px;"  >
+<div class="card" style="height:500px; width: 1350px; border-radius: 15px; background-color: white; margin-left: 50px; margin-top: 50px;"  >
       <div class="mb-3" style="width: 95%; margin-left: 25px; margin-top: 20px;">
         <h4 style="color: black; margin-left: 10px;">Professionals List</h4>
         
         <br>
+        <div style="overflow-y: auto; height: 280px; margin-left: 10px;">
         <table class="table table-bordered" style="width: 100%;">
       <thead>
         <tr>
@@ -243,6 +244,7 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
         
   </div>
 </div>

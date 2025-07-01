@@ -48,15 +48,17 @@
         <h3 style=" color: white;">Ongoing Services</h3>
         <form action="/Professionals_Dash" method="post">
         <div class="card" style="height: auto; width: 1050px; border-radius: 15px; background-color: white; margin-top: 20px;">
-      <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+      <div class="mb-3" style="width: 95%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Existing Service Request</h5>
         
         <br>
 
+        <div style="overflow-y: auto; height: 280px; margin-left: 10px;">
 
-        <table class="table table-bordered" style="width: 900px;">
+        <table class="table table-bordered" style="width: 95%;">
       <thead>
         <tr>
+          <th>Request_ID</th>
           <th>Customer_ID</th>
           <th>Service</th>
           <th>Duration</th>
@@ -79,11 +81,21 @@
           <td>{{ user1[4] }}</td>
           <td>{{ user1[5] }}</td>
           <td>{{ user1[6] }}</td>
+          <td>{{ user1[7] }}</td>
+
+          <td style="width: 150px;">
+            <form method="POST" style="margin-left: 10px;">
+        <input type="hidden" name="id" value="{{ user1[0] }}">
+        <button type="submit" name="complete" class="btn btn-success" style="width: 120px;">Completed</button>
+      </form>
+          </td>
           
         </tr>
         {% endfor %}
       </tbody>
+
     </table>
+    </div>
         
       </div>
     </div>
@@ -135,10 +147,12 @@
         <div class="card" style="height: 400px; width: 1050px; margin-left: 200px; margin-top: 80px; border-radius: 15px; background-color: white;">
       <div class="mb-3" style="width: 90%; margin-left: 25px; margin-top: 20px;">
         <h5 style="color: black; margin-left: 10px;">Your Service Request</h5>
-        
+        <div style="overflow-y: auto; height: 280px; margin-left: 10px;">
+
         <table class="table table-bordered" style="width: 100%;" >
       <thead>
         <tr>
+          <th>Request_ID</th>
           <th>Customer_ID</th>
           <th>Service</th>
           <th>Duration</th>
@@ -159,26 +173,25 @@
   <td>{{ user1[3] }}</td> 
   <td>{{ user1[4] }}</td> 
   <td>{{ user1[5] }}</td> 
-  <td>{{ user1[6] }}</td> 
+  <td>{{ user1[6] }}</td>
+  <td>{{ user1[7] }}</td> 
   
   
   <td>
     <div style="display: flex; align-items: flex-start;">
       <form method="POST" style="margin-left: 10px;">
-        <input type="hidden" name="username" value="{{ user1[0] }}">
-        <button type="submit" name="reject_professional" class="btn btn-danger" style="width: 100px;">Accept</button>
+        <input type="hidden" name="id" value="{{ user1[0] }}">
+        <button type="submit" name="accept" class="btn btn-success" style="width: 100px;">Accept</button>
       </form>
 
-      <form method="POST" style="margin-left: 10px;">
-        <input type="hidden" name="username" value="{{ user1[0] }}">
-        <button type="submit" name="approve_professional" class="btn btn-success" style="width: 100px;">Reject</button>
-      </form>
+      
     </div>
   </td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
+        </div>
           
         </div>
       </div>
@@ -195,7 +208,8 @@
         <h5 style="color: black; margin-left: 10px;">Service History</h5>
         
         <br>
-        
+      <div style="overflow-y: auto; height: 280px; margin-left: 10px;">
+
       <table class="table table-bordered" style="width: 100%;" >
       <thead>
         <tr>
@@ -222,14 +236,13 @@
   <td>{{ user1[6] }}</td> 
   
   
-  <td>
-    
-    </div>
-  </td>
+  
+  
 </tr>
 {% endfor %}
 </tbody>
 </table>
+</div>
           
         </div>
       </div>

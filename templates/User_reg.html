@@ -1,72 +1,79 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>EaseHeaven</title>
-        <link rel="icon" type="image/png" hrefhref="{{ url_for('static', filename='icon.png') }}">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-        </head>
-        <style>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>EaseHeaven</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
         body {
-        background-image: url("{{ url_for('static', filename='7.jpg') }}");
-        background-size: cover;
-        background-repeat: no-repeat;
+            background-image: url("{{ url_for('static', filename='7.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
         }
-  </style>
+    </style>
+</head>
+<body>
 
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          {{ message }}
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  {% for message in messages %}
+    {{ message }}
+  {% endfor %}
+{% endif %}
+{% endwith %}
 
-      <div class="card" style="height: 750px; width: 500px; margin-left: 500px;  border-radius: 10px; margin-top: 50px;">
-            <div class="mb-3" style="width: 400px; margin-left: 40px; margin-top: 20px;">
-                <h4 style="color: black; margin-left: 130px; ">Register Here</h4>
-                <br>
-                <form action="{{ url_for('Reg_user') }}" method="post">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username" style="font-weight: bold;"><br>
+<div class="card mb-3" style="width: 1000px; margin-left: 350px; margin-top: 80px; margin-bottom: 50px; border-radius: 15px; ">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='11.png') }}" class="img-fluid rounded-start" style="margin-top: 100px; height: 400px; width: 300px; margin-left: 30px;">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <form action="{{ url_for('Reg_user') }}" method="post">
+          <h4 style="color: black; text-align: center;">Register Here</h4>
+          <br>
+          <div style="display: flex; flex-direction: row; gap: 5px;">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Username" style="font-weight: bold;">
+            <input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name" style="font-weight: bold;">
+          </div>
+          <br>
 
-                <input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name" style="font-weight: bold;"><br>
+          <div style="display: flex; flex-direction: row; gap: 5px;">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" style="font-weight: bold;">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email ID" style="font-weight: bold;">
+          </div>
+          <br>
 
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" style="font-weight: bold;"><br>
+          <div style="display: flex; flex-direction: row; gap: 5px;">
+            <select id="serviceType" name="gender" class="form-control">
+              <option value="Choose Your Gender">Choose your Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Pincode" style="font-weight: bold;">
+          </div>
+          <br>
 
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email ID" style="font-weight: bold;"><br>
-                <div class="col-auto">
-                <select id="serviceType" name="gender" class="form-control" >
-                <option value="Choose Your Gender">Choose your Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-                </select>
-                </div><br>
+          <input type="text" class="form-control" id="address" name="address" placeholder="Address" style="font-weight: bold;">
+          <br>
 
-                <input type="text" class="form-control" id="address" name="address" placeholder="Address" style="font-weight: bold;"><br>
+          <input type="tel" class="form-control" id="contact" name="contact" placeholder="Contact" style="font-weight: bold;">
+          <br>
 
-                <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Pincode" style="font-weight: bold;"><br>
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%; background-color: black; color: white;">Register Now</button>
+        </form>
 
-                <input type="tel" class="form-control" id="contact" name="contact" placeholder="Contact" style="font-weight: bold;"><br>
+        <h7 style="margin-top: 20px; display: block; text-align: center;">Already have an ID?</h7>
+        <a href="/" class="btn btn-primary" style="margin-top: 10px; width: 100%; background-color:#d900ff; color: white;">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
 
-               
-                
-
-
-
-
-
-
-
-                <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 400px; background-color: black; color: white;" >Register Now</button>
-               </form>
-                <h7 style=" margin-top: 20px; margin-left: 120px;">Already have an ID ?</h7><br>
-                <a href="/" class="btn btn-primary" style="margin-top: 20px; margin-left: 150px; width: 100px; background-color: red; color: white;" >Login</a>
-            </div>
-            </div>
-
-        </body>
-        </html>
+</body>
+</html>

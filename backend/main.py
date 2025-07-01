@@ -3,10 +3,12 @@ from flask import Flask, render_template,request,redirect, url_for,session, g, f
 import os
 import sqlite3
 from werkzeug.security import check_password_hash
+from datetime import timedelta
 
 
 app = Flask(__name__, template_folder='../templates')
 app.secret_key = 'EaseHeaven@123'
+app.permanent_session_lifetime = timedelta(seconds=15)
 
 #generated_secret_key via cmd
 
@@ -72,6 +74,7 @@ def login_p():
         user = cursor.fetchone()
 
         if user:
+            session.permanent = True
             session['partner_id'] = id
             return redirect(url_for('Pr_dash'))
         else:
@@ -82,13 +85,15 @@ def login_p():
 
 @app.route('/Professionals_Dash',methods=['GET', 'POST'])
 def Pr_dash():
+    if 'id' not in session:
+        return redirect(url_for('login_p'))
 
     
     ID = session['partner_id']
 
     db = get_db()
     cursor=db.cursor()
-    cursor.execute('SELECT username , service , duration ,date_o, date_e, ser_st,status FROM service_request WHERE prf_id=? and status=?', (ID, 'Active' ))
+    cursor.execute('SELECT sr_id , username , service , duration ,date_o, date_e, ser_st,status FROM service_request WHERE prf_id=? and status=?', (ID, 'Active' ))
     table1 = cursor.fetchall()
 
     cursor.execute('SELECT service FROM active_professional WHERE username = ?', (ID,))
@@ -97,7 +102,7 @@ def Pr_dash():
     if service_row:
         service_name = service_row[0]
         cursor.execute(
-        'SELECT username, service, duration, date_o, date_e, ser_st, status '
+        'SELECT sr_id, username, service, duration, date_o, date_e, ser_st, status '
         'FROM service_request WHERE service = ? AND status IN (?, ?)',
         (service_name, 'Active', 'Pending')
         )
@@ -108,9 +113,9 @@ def Pr_dash():
 
     
     cursor.execute(
-        'SELECT username, service, duration, date_o, date_e, ser_st, status FROM service_request WHERE prf_id = ? AND status IN (?)'
+        'SELECT username, service, duration, date_o, date_e, ser_st, status FROM service_request WHERE prf_id = ? AND ser_st IN (?)'
         ,
-        (ID, 'Closed')
+        (ID, 'Completed')
         )
     table3 = cursor.fetchall()
 
@@ -142,6 +147,20 @@ def Pr_dash():
         username = request.form.get('customer_id')
         cursor.execute("SELECT name, gender , phone , pincode ,address , email,status FROM customer_details WHERE username = ? and status=?", (username,'Unblocked'))
         result = cursor.fetchone()
+        srid=request.form.get('id')
+
+
+        if 'accept' in request.form:
+            cursor.execute(
+                '''
+                UPDATE service_request SET prf_id=? WHERE sr_id = ? ''', ( ID,srid))
+            db.commit()
+
+        if 'complete' in request.form:
+            cursor.execute(
+                '''
+                UPDATE service_request SET ser_st=? WHERE sr_id = ? ''', ('Completed', srid))
+            db.commit()
 
 
 
@@ -274,6 +293,8 @@ def Reg_user():
 #---------------> User login
 @app.route("/login_pg", methods=['GET', 'POST'])
 def login_pg():
+
+
     if request.method == 'POST':
         id = request.form['username']
         password = request.form['password']
@@ -284,6 +305,7 @@ def login_pg():
         user = cursor.fetchone()
 
         if user:
+            session.permanent = True
             session['id'] = id
             return redirect(url_for('User_dash'))
         else:
@@ -311,6 +333,7 @@ def admin():
         if user :
             print(user)
             if check_password_hash(user[2],password):
+                session.permanent = True
                 session['id'] = id
                 return redirect(url_for('show'))
         else:
@@ -471,6 +494,20 @@ def show2():
     # If form submitted (POST)
     if request.method == 'POST':
         username = request.form.get('username')
+        action = request.form.get('action')
+
+        if action == 'block':
+            cursor.execute('UPDATE active_professional SET status = "Blocked" WHERE username = ?', (username,))
+            db.commit()
+            flash('Customer has been blocked')
+        elif action == 'unblock':
+            cursor.execute('UPDATE active_professional SET status = "Unblocked" WHERE username = ?', (username,))
+            db.commit()
+            flash('Customer has been unblocked')
+
+
+
+
         cursor.execute("SELECT full_name, gender , phone , pincode ,address , email, experience, status , service FROM active_professional WHERE username = ?", (username,))
         result = cursor.fetchone()
 
@@ -512,40 +549,43 @@ def show2():
     labels = [row[0] for row in data]
     counts = [row[1] for row in data]
 
-    return render_template('Admin_dash2.html' , table1=table1 ,  result=result , table2=table2 , table3=table3,labels=labels , counts = counts)
+    return render_template('Admin_dash2.html' , table1=table1 ,  result=result , table2=table2 , table3=table3,labels=labels , counts = counts, username=username)
 
 
 
 
 ####----------------------Customers Management ----------->>>>
 
-@app.route('/Show_table3', methods=['GET' , 'POST'])
+@app.route('/Show_table3', methods=['GET', 'POST'])
 def show3():
     db = get_db()
     cursor = db.cursor()
 
+    result = None
+    username = None
 
-    result = None  # to hold the searched service result
-
-    # If form submitted (POST)
     if request.method == 'POST':
         username = request.form.get('username')
-        cursor.execute("SELECT name, gender , phone , pincode ,address , email, status FROM customer_details WHERE username = ?", (username,))
+        action = request.form.get('action')
+
+        if action == 'block_customer':
+            cursor.execute('UPDATE customer_details SET status = "Blocked" WHERE username = ?', (username,))
+            db.commit()
+            flash('Customer has been blocked')
+        elif action == 'unblock_customer':
+            cursor.execute('UPDATE customer_details SET status = "Unblocked" WHERE username = ?', (username,))
+            db.commit()
+            flash('Customer has been unblocked')
+
+        # Fetch updated data after any action
+        cursor.execute("SELECT name, gender, phone, pincode, address, email, status FROM customer_details WHERE username = ?", (username,))
         result = cursor.fetchone()
 
-
-
-       ##----Block and Unblock of professionals-----
-
-
-    cursor.execute('SELECT username , name, phone , gender , pincode FROM customer_details')
+    cursor.execute('SELECT username, name, phone, gender, pincode FROM customer_details')
     table1 = cursor.fetchall()
 
     cursor.execute('SELECT username, review FROM review')
     table3 = cursor.fetchall()
-    
-    
-    
 
     cursor.execute('SELECT service, COUNT(username) FROM service_request GROUP BY service')
     data = cursor.fetchall()
@@ -553,7 +593,13 @@ def show3():
     labels = [row[0] for row in data]
     counts = [row[1] for row in data]
 
-    return render_template('Admin_dash3.html' , table1=table1 , table3=table3, result=result , labels=labels , counts = counts)
+    return render_template('Admin_dash3.html',
+                           table1=table1,
+                           table3=table3,
+                           result=result,
+                           username=username,
+                           labels=labels,
+                           counts=counts)
 
 
 
@@ -562,7 +608,8 @@ def show3():
 @app.route('/cust_ds', methods=['GET', 'POST'])
 def cust_ds():
     if 'id' not in session:
-        return redirect('/login') 
+        return redirect('/login')
+     
 
     ID = session['id']
     services = []
@@ -625,7 +672,12 @@ def cust_ds():
 
     return render_template('User_dash.html', user={'id': ID}, services=services, errorz=errorz, error=error,pins=pins)
 
-
+@app.after_request
+def add_header(response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 

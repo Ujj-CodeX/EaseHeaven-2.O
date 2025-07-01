@@ -122,25 +122,22 @@
             
 
             <br>
-            <div style="display: flex; align-items: flex-start;">
-      <form method="POST" style="margin-left: 10px;">
-        <input type="hidden" name="username">
-        <button type="submit" name="block_professional" class="btn btn-danger" style="width: 100px;">Block</button>
-      </form>
-
-      <form method="POST" style="margin-left: 10px;">
-        <input type="hidden" name="username" >
-        <button type="submit" name="unblock_professional" class="btn btn-success" style="width: 100px;">Unblock</button>
-      </form>
-    </div>
+      <div style="display: flex; align-items: flex-start; gap: 20px;">
+       <form action="/Show_table3" method="post" style="display: flex; gap: 20px;">
+          <input type="hidden" name="username" value="{{ username }}">
+          <button type="submit" name="action" value="block_customer" class="btn btn-danger" style="width: 100px;">Block</button>
+          <button type="submit" name="action" value="unblock_customer" class="btn btn-success" style="width: 100px;">Unblock</button>
+        </form>
+      </div>
             {% else %}
             <h6 style="color: black; margin-left: 10px;">No Customer Found</h6>
             {% endif %}
           </div>
         </div>
       </div>
-    </div>
+    
 
+</div>
     <!-- CARD 3 -  -->
     <div class="card" style="height: 500px; width: 1050px; border-radius: 15px; background-color: white;">
       <div class="mb-3" style="width: 90%px; margin-left: 25px; margin-top: 20px;">
@@ -148,6 +145,7 @@
         <div style="overflow-y: auto; height: 280px; width: 95%; margin-left: 10px;">
         
         <br>
+        <div style="overflow-y: auto; height: 280px; margin-left: 10px;">
 
         <table class="table table-bordered" >
       <thead>
@@ -173,6 +171,7 @@
 {% endfor %}
 </tbody>
 </table>
+</div>
 </div>
 
 </div>
