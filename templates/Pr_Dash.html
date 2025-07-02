@@ -131,10 +131,20 @@
       
       
       
-      <div class="card" style="height: 380px; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
+      <div class="card" style="height: auto; width: 500px; border-radius: 15px; background-color: white; margin-top: 20px;">
           <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger" style="margin-top: 10px; border-radius: 5px;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
           <h5 style="color: black; margin-left: 10px;">Write Review</h5>
       </div>
+
       <form class="d-flex" style="margin-top: 40px; width: 500px;" action="/Professionals_Dash" method="post">
         <textarea class="form-control mr-2" style="margin-left: 50px; height: 200px; width: 300px;" name="review" placeholder="Review" aria-label="Write your review here"></textarea>
         <button class="btn btn-outline-light" type="submit" name="Pr_review" style="width: 100px; color: white; background-color: black;">Submit Review</button>

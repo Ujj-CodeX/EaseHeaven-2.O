@@ -58,6 +58,7 @@ class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     charges = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(100), nullable=False)
 
 class Professional(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -79,6 +80,14 @@ class Admin(db.Model):
     password= db.Column(db.String(200), nullable=False)
 
 
+class Review2(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), nullable=False)
+    review = db.Column(db.Text, nullable=False)
+
+
 with app.app_context():
     db.create_all()
     print(" Database and all tables created successfully.")
+
+

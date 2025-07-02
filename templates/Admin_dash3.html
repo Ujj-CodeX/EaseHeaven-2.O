@@ -215,6 +215,26 @@
       <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
         <h6 style="color: black; margin-left: 10px;">Professionals Feedback</h6>
         
+        <div style="overflow-y: auto; height: 280px; width: 400px; margin-left: 10px;">
+        <table class="table table-bordered" style="width: 650px;">
+      <thead>
+        <tr>
+          <th style="width: 150px;">Partner_ID</th>
+          <th style="width: 300px;">Review</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for user1 in table4 %}
+        <tr>
+          <td>{{ user1[0] }}</td>
+          <td>{{ user1[1] }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
         
         
         

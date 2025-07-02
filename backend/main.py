@@ -139,7 +139,7 @@ def Pr_dash():
 
     if  'Pr_review' in request.form:
         rv=request.form['review']
-        cursor.execute('''INSERT INTO review (username, review) VALUES (?, ?)''', (ID, rv))
+        cursor.execute('''INSERT INTO review2 (username, review) VALUES (?, ?)''', (ID, rv))
         db.commit()
         flash('Review Submitted!', 'success')
 
@@ -397,7 +397,7 @@ def Reg_partner():
                               VALUES (?, ?, ?, ?, ?, ?, ?, ? ,? , ? , ?)''',
                            (userid, hp, Fullname,Gender, address, Pincode, phone, email , status , serv , exp))
             db.commit()
-            flash('Registration successful!')
+            flash('Registration successful! Please wait for Admin Approval')
             return redirect(url_for('Partner_login'))
         return render_template('Pr_reg.html')
 
@@ -410,17 +410,19 @@ def service():
     if request.method == 'POST' :
        ser = request.form['service']
        price = request.form['price']
+       des = request.form['description']
+
 
        db = get_db()
        cursor = db.cursor()
-       cursor.execute('''INSERT INTO service (name,charges) VALUES (?, ?)''',(ser, price))
+       cursor.execute('''INSERT INTO service (name,charges,description) VALUES (?, ?,?)''',(ser, price,des))
        db.commit()
        flash('Service Creation successful!')
 
 
 
     
-    return render_template(url_for('show'))
+    return redirect(url_for('show'))
 
 @app.route('/Show_table', methods=['GET' , 'POST'])
 def show():
@@ -437,10 +439,10 @@ def show():
     # If form submitted (POST)
     if request.method == 'POST':
         service_name = request.form.get('service_name')
-        cursor.execute("SELECT name, charges FROM service WHERE name = ?", (service_name,))
+        cursor.execute("SELECT name, charges , description FROM service WHERE name = ?", (service_name,))
         result = cursor.fetchone()
 
-    cursor.execute('SELECT name, charges ,id FROM service')
+    cursor.execute('SELECT name, charges ,id , description FROM service')
     table1 = cursor.fetchall()
 
     cursor.execute('SELECT username, review FROM review')
@@ -448,10 +450,13 @@ def show():
 
     cursor.execute('SELECT username, review FROM review')
     table3 = cursor.fetchall()
+
+    cursor.execute('SELECT username, review FROM review2')
+    table4 = cursor.fetchall()
     
 
     
-    return render_template('Admin_dash1.html' , table1=table1 ,  result=result , table2=table2, table3=table3)
+    return render_template('Admin_dash1.html' , table1=table1 ,  result=result , table2=table2, table3=table3 ,table4=table4)
 
 
 @app.route('/delete_service/<int:service_id>', methods=['POST'])
@@ -552,6 +557,8 @@ def show2():
 
     cursor.execute('SELECT username, review FROM review')
     table3 = cursor.fetchall()
+    cursor.execute('SELECT username, review FROM review2')
+    table4 = cursor.fetchall()
     
     
 
@@ -578,7 +585,7 @@ def show2():
     labels = [row[0] for row in data]
     counts = [row[1] for row in data]
 
-    return render_template('Admin_dash2.html' , table1=table1 ,  result=result , table2=table2 , table3=table3,labels=labels , counts = counts, username=username)
+    return render_template('Admin_dash2.html' , table1=table1 ,  result=result , table2=table2 , table3=table3,labels=labels , counts = counts, username=username,table4=table4)
 
 
 

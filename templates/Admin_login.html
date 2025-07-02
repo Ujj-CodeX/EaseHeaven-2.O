@@ -1,19 +1,11 @@
 
-<!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>EaseHeaven</title>
-        <link rel="icon" type="image/png" hrefhref="{{ url_for('static', filename='icon.png') }}">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-        </head>
-        <body style="background-image: url(/static/7.jpg); background-size: cover;
-      background-repeat: no-repeat;">
+{% extends "base_auth.html" %}
 
-      <div class="card" style="height: 350px; width: 300px; margin-left: 600px;  border-radius: 15px; margin-top: 250px; background-color: rgb(215, 217, 219);">
+{% block title %}Admin login{% endblock %}
+
+{% block content %}
+
+      <div class="card" style="height: 350px; width: 300px; margin-left: 600px;  border-radius: 15px; margin-top: 150px; background-color: rgb(215, 217, 219);">
             <div class="mb-3" style="width: 250px; margin-left: 25px; margin-top: 20px;">
                   {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -42,5 +34,4 @@
 
             
 
-        </body>
-        </html>
+        {%endblock%}
