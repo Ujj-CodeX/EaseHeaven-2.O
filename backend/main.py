@@ -2,13 +2,17 @@ from logging import error
 from flask import Flask, render_template,request,redirect, url_for,session, g, flash
 import os
 import sqlite3
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash,generate_password_hash
 from datetime import timedelta
+
+
+
 
 
 app = Flask(__name__, template_folder='../templates')
 app.secret_key = 'EaseHeaven@123'
-app.permanent_session_lifetime = timedelta(seconds=15)
+app.permanent_session_lifetime = timedelta(minutes=5)
+
 
 #generated_secret_key via cmd
 
@@ -27,7 +31,10 @@ def get_db():
 
 @app.route('/')
 def home():
-    return render_template('Home.html')  # This will include base.html properly
+    return render_template('Home.html')
+@app.route('/p_login')
+def partner():
+    return render_template('Pr_login.html')  # This will include base.html properly
 
 @app.route('/About')
 def about():
@@ -51,6 +58,9 @@ def pr_reg():
 
 @app.route('/EaseHeaven')
 def User_dash():
+    if 'id' not in session:
+        return redirect(url_for('home'))
+
     return render_template('User_Dash.html')
 
 @app.route('/Professional')
@@ -70,22 +80,22 @@ def login_p():
 
         db = get_db()
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM active_professional WHERE username = ? AND password = ? AND status=? ", (id, password,"Unblocked"))
+        cursor.execute("SELECT * FROM active_professional WHERE username = ? AND status=? ", (id,"Unblocked"))
         user = cursor.fetchone()
 
-        if user:
+        if user and check_password_hash(user[2], password):
             session.permanent = True
             session['partner_id'] = id
             return redirect(url_for('Pr_dash'))
         else:
             flash('Invalid user ID or password.')
-            return redirect(url_for('home'))
-    return render_template('Partner_login.html')
+            return redirect(url_for('partner'))
+    return render_template('Pr_login.html')
 
 
 @app.route('/Professionals_Dash',methods=['GET', 'POST'])
 def Pr_dash():
-    if 'id' not in session:
+    if 'partner_id' not in session:
         return redirect(url_for('login_p'))
 
     
@@ -263,8 +273,10 @@ def Reg_user():
             email = request.form['email']
             status= "Unblocked"
 
+            hp = generate_password_hash(password)
 
-            # Insert data into the database
+
+           
             db = get_db()
             cursor = db.cursor()
 
@@ -282,7 +294,7 @@ def Reg_user():
             cursor.execute('''INSERT INTO customer_details 
                               (username, password, name, gender, address, pincode, phone, email ,status ) 
                               VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)''',
-                           (userid, password, Fullname,Gender, address, Pincode, phone, email , status))
+                           (userid, hp, Fullname,Gender, address, Pincode, phone, email , status))
             db.commit()
             flash('Registration successful!')
             return redirect(url_for('home'))
@@ -301,10 +313,10 @@ def login_pg():
 
         db = get_db()
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM customer_details WHERE username = ? AND password = ? AND status=? ", (id, password,"Unblocked"))
+        cursor.execute("SELECT * FROM customer_details WHERE username = ?  AND status=? ", (id,"Unblocked"))
         user = cursor.fetchone()
 
-        if user:
+        if user and check_password_hash(user[2], password):
             session.permanent = True
             session['id'] = id
             return redirect(url_for('User_dash'))
@@ -321,6 +333,9 @@ def login_pg():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
+    
+
+
     if request.method == 'POST':
         id = request.form['username']
         password = request.form['password']
@@ -330,15 +345,17 @@ def admin():
         cursor.execute("SELECT * FROM admin WHERE username = ? ", (id, ))
         user = cursor.fetchone()
 
-        if user :
-            print(user)
-            if check_password_hash(user[2],password):
+        if user:
+            if check_password_hash(user[2], password):
                 session.permanent = True
                 session['id'] = id
                 return redirect(url_for('show'))
+            else:
+                flash('Incorrect password.')   
+                return redirect(url_for('admin'))
         else:
-            flash('Invalid user ID or password.')
-            return redirect(url_for('Admin_login'))
+            flash('Invalid username.')      
+            return redirect(url_for('admin'))
     return render_template('Admin_login.html')
 
 #------> Partners Registration 
@@ -360,6 +377,9 @@ def Reg_partner():
             exp=request.form['exp']
             serv=request.form['service']
 
+
+            hp = generate_password_hash(password)
+
             db=get_db()
             cursor=db.cursor()
             cursor.execute("SELECT * FROM active_professional WHERE username = ?", (userid,))
@@ -375,7 +395,7 @@ def Reg_partner():
             cursor.execute('''INSERT INTO professional 
                               (username, password, full_name, gender, address, pincode, phone, email ,status, service_type , experience) 
                               VALUES (?, ?, ?, ?, ?, ?, ?, ? ,? , ? , ?)''',
-                           (userid, password, Fullname,Gender, address, Pincode, phone, email , status , serv , exp))
+                           (userid, hp, Fullname,Gender, address, Pincode, phone, email , status , serv , exp))
             db.commit()
             flash('Registration successful!')
             return redirect(url_for('Partner_login'))
@@ -404,6 +424,10 @@ def service():
 
 @app.route('/Show_table', methods=['GET' , 'POST'])
 def show():
+    if 'id' not in session:
+        return redirect('/Admin_login')
+
+
     db = get_db()
     cursor = db.cursor()
 
@@ -485,11 +509,16 @@ def user_review():
 ##------------------Partners Management------>.
 @app.route('/Show_table2', methods=['GET' , 'POST'])
 def show2():
+
+    if 'id' not in session:
+        return redirect('/Admin_login')
+    
     db = get_db()
     cursor = db.cursor()
 
 
-    result = None  # to hold the searched service result
+    result = None
+    username = None  # to hold the searched service result
 
     # If form submitted (POST)
     if request.method == 'POST':
@@ -558,6 +587,12 @@ def show2():
 
 @app.route('/Show_table3', methods=['GET', 'POST'])
 def show3():
+
+    if 'id' not in session:
+        flash('Login Again')
+        return redirect('/Admin_login')
+       
+    
     db = get_db()
     cursor = db.cursor()
 
@@ -607,8 +642,10 @@ def show3():
 
 @app.route('/cust_ds', methods=['GET', 'POST'])
 def cust_ds():
+    print("Session content:", dict(session))
+
     if 'id' not in session:
-        return redirect('/login')
+        return redirect('/')
      
 
     ID = session['id']
@@ -679,6 +716,103 @@ def add_header(response):
     response.headers["Expires"] = "0"
     return response
 
+############--------Logout ------------>
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('Admin_login'))
+
+@app.route('/logout1')
+def logout1():
+    session.clear()
+    return redirect(url_for('home'))
+
+@app.route('/logout2')
+def logout2():
+    session.clear()
+    return redirect(url_for('home'))
+
+
+
+######################################################
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('500.html'), 500
+
+
+#########################################################
+
+@app.route('/forgot_partner', methods=['GET', 'POST'])
+def forgot_password_partner():
+    if request.method == 'POST':
+        username = request.form['username']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        if not username or not new_password or not confirm_password:
+            flash("All fields are required.", "danger")
+            return redirect(url_for('forgot_password_partner'))
+
+        if new_password != confirm_password:
+            flash("Passwords do not match.", "danger")
+            return redirect(url_for('forgot_password_partner'))
+
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM active_professional WHERE username = ?", (username,))
+        user = cursor.fetchone()
+
+        if not user:
+            flash("Username not found.", "danger")
+            return redirect(url_for('forgot_password_partner'))
+
+        hashed_password = generate_password_hash(new_password)
+        cursor.execute("UPDATE active_professional SET password = ? WHERE username = ?", (hashed_password, username))
+        db.commit()
+
+        flash("Password updated successfully! You can now log in.", "success")
+        return redirect(url_for('login_p'))
+
+    return render_template('Forget.html')
+
+@app.route('/forgot_user', methods=['GET', 'POST'])
+def forgot_password_user():
+    if request.method == 'POST':
+        username = request.form['username']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        if not username or not new_password or not confirm_password:
+            flash("All fields are required.", "danger")
+            return redirect(url_for('forgot_password_user'))
+
+        if new_password != confirm_password:
+            flash("Passwords do not match.", "danger")
+            return redirect(url_for('forgot_password_user'))
+
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM customer_details WHERE username = ?", (username,))
+        user = cursor.fetchone()
+
+        if not user:
+            flash("Username not found.", "danger")
+            return redirect(url_for('forgot_password_user'))
+
+        hashed_password = generate_password_hash(new_password)
+        cursor.execute("UPDATE customer_details SET password = ? WHERE username = ?", (hashed_password, username))
+        db.commit()
+
+        flash("Password updated successfully!")
+        return redirect(url_for('home'))
+
+    return render_template('Forget2.html')
 
 
 
