@@ -17,7 +17,8 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 #generated_secret_key via cmd
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-Database = 'Database.db'
+Database = os.path.join(BASE_DIR, 'Database.db')
+
 
 #Establishing Connection with Database
 
