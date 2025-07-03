@@ -69,15 +69,15 @@
         <div class="minicards" style="display: flex; align-items: flex-start; gap: 50px;">
             <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
                 
-                <img src="{{ url_for('static', filename='34.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <img src="{{ url_for('static', filename='34.png') }}" class="card-img service-img" style="width: 180px; height: 180px; margin-top: 10px; margin-left: 20px; ">
                 <h7 style="margin-left: 70px; font-weight: bold;" >Laundary</h7>
             </div>
             <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
-                <img src="{{ url_for('static', filename='35.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <img src="{{ url_for('static', filename='35.png') }}" class="card-img service-img" style="width: 180px; height: 180px; margin-top: 10px; margin-left: 20px; ">
                 <h7 style="margin-left: 70px; font-weight: bold;" >Gardening</h7>
             </div>
             <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
-                <img src="{{ url_for('static', filename='36.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <img src="{{ url_for('static', filename='36.png') }}" class="card-img service-img" style="width: 180px; height: 180px; margin-top: 10px; margin-left: 20px; ">
                 <h7 style="margin-left: 70px; font-weight: bold;" >Electrician</h7>
             </div>
         </div>
@@ -85,23 +85,32 @@
         <div class="minicards" style="display: flex; align-items: flex-start; gap: 50px;">
 
             <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
-                <img src="{{ url_for('static', filename='37.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <img src="{{ url_for('static', filename='37.png') }}" class="card-img service-img" style="width: 180px; height: 180px; margin-top: 10px; margin-left: 20px; ">
                 <h7 style="margin-left: 70px; font-weight: bold;" >Painter</h7>
             </div>
 
             <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
-                <img src="{{ url_for('static', filename='38.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <img src="{{ url_for('static', filename='38.png') }}" class="card-img service-img" style="width: 180px; height: 180px; margin-top: 10px; margin-left: 20px; ">
                 <h7 style="margin-left: 70px; font-weight: bold;" >Cleaner</h7>
                 
             </div>
 
             <div class="card" style="height: 250px; width: 220px; margin-left: 100px; margin-top: 80px;">
-                <img src="{{ url_for('static', filename='39.png') }}" class="card-img" style="width: 200px; height: 210px;">
+                <img src="{{ url_for('static', filename='39.png') }}" class="card-img service-img" style="width: 180px; height: 180px; margin-top: 10px; margin-left: 20px; ">
                 <h7 style="margin-left: 70px; font-weight: bold;" >Plumber</h7>
             </div>
         </div>
     </div>
 
-    
+    <style>
+        .service-img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .service-img:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+    </style>
 
 {% endblock %}
