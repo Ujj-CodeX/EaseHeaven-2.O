@@ -45,7 +45,7 @@ Welcome to **EaseHeaven 2.0**, a modern web application providing seamless doors
 ### ☁️ Deployment
 - Render
 
----
+
 
 ##  How to Run Locally
 
@@ -57,24 +57,26 @@ Welcome to **EaseHeaven 2.0**, a modern web application providing seamless doors
 
 2. **Create virtual environment**
 
-```bash
 python -m venv venv
 source venv/bin/activate   
 Install dependencies
 
-```bash
+
+3. **Install dependencies**
+
 pip install -r requirements.txt
-Run
 
-```bash
+4. **Run**
+
 flask run
-Open in browser
 
-```cpp
+4. **Open in Browser**
+
 
 http://127.0.0.1:5000/
 
 📬 Contact
+
 Created by Ujjawal Kumar Rauniyar — feel free to connect!
 
 ⭐ If you like this project, please give it a star! ⭐
