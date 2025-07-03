@@ -56,24 +56,24 @@ Welcome to **EaseHeaven 2.0**, a modern web application providing seamless doors
    cd EaseHeaven-2.O
 
 2. **Create virtual environment**
-
-python -m venv venv
-source venv/bin/activate   
-Install dependencies
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   
 
 
 3. **Install dependencies**
-
-pip install -r requirements.txt
+   ```bash
+   pip install -r requirements.txt
 
 4. **Run**
+   ```bash
 
-flask run
+   flask run
 
 4. **Open in Browser**
+    ```cpp
 
-
-http://127.0.0.1:5000/
+   http://127.0.0.1:5000/
 
 📬 Contact
 
